@@ -1,4 +1,3 @@
-package com.mobigen.util;
 
 import javax.crypto.*;
 import javax.crypto.spec.*;

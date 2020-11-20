@@ -25,14 +25,23 @@
   compile된 Java code  
   JVM은 바이트코드를 해석하여 프로그램이 실행되기 때문에 OS에 종속되지 않는 것.  
 ## JIT 컴파일러란 무엇이며 어떻게 동작하는가
+JIT(Just In Time)
   bytecode를 기계어로 바로 변환해 주는 코드. 
   인터프리터와 같이 동작함.(interpreter은 하나 하나 해석하는 방식)  
   single thread처럼 사용됨.  
   자주 사용되는 기계어로 생각되면 caching해 두었다가 사용함.   
 ## JVM 구성 요소
   Class Loader  
+   - bytecode를 읽어서 merory에 적절하게 배치. 
+   - Loading->Link->initialization  
+   
   Runtime Data Areas  
-  Execution Engeine(GC가 있는 곳)  
+  
+  Execution Engeine 
+    : Interpreter/JIT/GC 등이 존재.  
+    - Interpreter : Bytecode를 읽어서 기계어(Native Code)로 변환.
+    - JIT : 중복된 Bytecode가 사용되면 JIT에서 찾아서 사용. Cache 느낌.  
+    - Garbage Collector(GC) : 참조되지 않는 메모리를 제거하는 작업을 하는 등 메모리 관리 시스템.
 ## JDK와 JRE의 차이
   JRE(Java Runtime Environment) = JVM + 주요 Library  
   JDK(Java SE Development Kit) = JRE + Development Tools and Utilities  

@@ -17,13 +17,51 @@
 ## 컴파일 하는 방법
   Java Compiler(javac)에서 Compile됨.  
   (.java를 .class로 변환하는 과정)  
+  ~~~
+  class Main{
+    public static void main(String[] args) { 
+        System.out.println("Hello World");
+    }
+  }
+  ~~~
+  
+  javac로 compile
+  ~~~
+  javac Main.java
+  ~~~
+  Main.java/Main.class 생성
+  
 ## 실행하는 방법
   컴파일된 프로그램을 JVM위에 Load해서 java.exe가 실행!  
+  ~~~
+  java Main
+  ~~~
 ## 바이트코드란 무엇인가
   JVM 이해할 수 있는 코드  
   .class파일 안에 있는 코드  
   compile된 Java code  
   JVM은 바이트코드를 해석하여 프로그램이 실행되기 때문에 OS에 종속되지 않는 것.  
+  ### 컴파일된 class를 바이트코드로 확인해보기
+  ~~~
+  javap -c Main.class
+  ~~~  
+  ~~~
+Compiled from "Main.java"
+class Main {
+  Main();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+       3: ldc           #3                  // String Hello World
+       5: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       8: return
+}
+~~~
 ## JIT 컴파일러란 무엇이며 어떻게 동작하는가
 JIT(Just In Time)
   bytecode를 기계어로 바로 변환해 주는 코드. 
@@ -35,7 +73,7 @@ JIT(Just In Time)
    - bytecode를 읽어서 merory에 적절하게 배치. 
    - Loading->Link->initialization  
    
-  Runtime Data Areas  
+  Runtime Data Areas : JVM이 OS위에 올라가서 실행될때, OS가 할당해주는 메모리 영역  
   
   Execution Engeine 
     : Interpreter/JIT/GC 등이 존재.  
@@ -45,3 +83,10 @@ JIT(Just In Time)
 ## JDK와 JRE의 차이
   JRE(Java Runtime Environment) = JVM + 주요 Library  
   JDK(Java SE Development Kit) = JRE + Development Tools and Utilities  
+  
+ 
+ 
+ 
+ ### 참고 자료  
+  남궁 성, Java의 정석, 도우출판  
+  https://d2.naver.com/helloworld/1230  

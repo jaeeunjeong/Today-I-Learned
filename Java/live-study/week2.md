@@ -23,12 +23,9 @@ double
 Reference Type : 주소를 가진 변수 타입.  
 변수에 주소가 있고 그 주소를 호출하는 방식으로 변수를 사용한다.  
 따라서 변수가 저장되는 곳과 실제 값이 저장되는 곳이 달라진다.  
-
-주소가 저장되는 곳은  Runtime Data Area의 stack이고  
-
-값이 저장되는 곳은 heap이다.  
+**주소가 저장되는 곳은  Runtime Data Area의 stack이고  
+값이 저장되는 곳은 heap이다.**  
 ex) 클래스이름 변수이름;  
-
 
 primitive Type이 저장되는 곳은 Runtime Data Area에서 Stack 영역.  
 referenct Type이 저장되는 곳은 주소부분은 stack이고, 실제 값은 heap이다.  
@@ -52,6 +49,47 @@ int nbr;
 nbr = 3;
 String str = "abc";
 ```
+
+_변수별 다른 부분을 알아보고자 바이트코드를 확인해보았지만 잘 모르겠다_
+```
+class Main{
+  static int MAX = 1234567;
+  public static void main(String[] args) { 
+    int nbr = 1;
+    String str = "Hello";
+  }
+}
+```
+
+```
+javap -c Main.class
+Compiled from "Main.java"
+class Main {
+  static int MAX;
+
+  Main();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: iconst_1
+       1: istore_1
+       2: ldc           #2                  // String Hello
+       4: astore_2
+       5: return
+
+  static {};
+    Code:
+       0: ldc           #3                  // int 1234567
+       2: putstatic     #4                  // Field MAX:I
+       5: return
+}
+```
+
+
 ## 변수의 스코프와 라이프타임  
 변수는 선언된 위치에 따라 Scope(존재하는 메모리 위치)가 달라진다.  
 ### Class 변수

@@ -56,15 +56,15 @@ if(p.instanceof(c)){
 ```
 .... 모르겠다.
 ## assignment(=) operator 
-좌변에 우변의 항을 대입하여 사용가능하다.  
-## 화살표(->) 연산자 
 좌변에 우변의 값을 넣어 사용하는 연산자.  
 =을 사용하면 변수에 값을 넣을 수가 있다.  
 ```
 int x;
-x = 3;//x에 3이라는 값을 넣을 수 
+x = 3;//x에 3이라는 값을 넣을 수 있다.
 
 ```
+## 화살표(->) 연산자 
+lambda!!
 ## 3항 연산자 
 조건문? true인 경우 실행 : false일 경우 실행   
 if문 없이 조건문의 수행이 가능함.
@@ -72,7 +72,7 @@ if문 없이 조건문의 수행이 가능함.
 int x = 3;
 int y = 2;
 int bigger = x > y ? x :  y;
-System.out.println(bigger);
+System.out.println(bigger);//큰 수가 출력됨.
 ```
 ## 연산자 우선 순위 
 1. 증감 연산자 ++. --  

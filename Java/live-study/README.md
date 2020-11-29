@@ -1,5 +1,5 @@
 # live-study with whiteship
-백기선(whiteship)님께서 [YouTube](https://github.com/whiteship/live-study/issues)로 진행하는 [라이브 스터디 프로젝트](https://github.com/whiteship/live-study)의 참여를 통해 Java를 공부합니다.
+백기선(whiteship)님께서 [YouTube](https://www.youtube.com/user/whiteship2000)로 진행하는 [라이브 스터디 프로젝트](https://github.com/whiteship/live-study)의 참여를 통해 Java를 공부합니다.
 
 ## 목차
 

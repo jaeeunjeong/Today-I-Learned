@@ -3,12 +3,12 @@
 
 ## 목차
 
-1주차 : 자바 소스 파일(.java)을 JVM으로 실행하는 과정 이해하기.  
-2주차 : 자바 데이터 타입, 변수 그리고 배열  
-3주차 : 연산자  
-4주차 : 제어  
-5주차 : 클래스  
-6주차 : 상속  
+[1주차 : 자바 소스 파일(.java)을 JVM으로 실행하는 과정 이해하기.](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week1.md)  
+[2주차 : 자바 데이터 타입, 변수 그리고 배열](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week2.md)  
+[3주차 : 연산자](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week3.md)  
+[4주차 : 제어](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week4.md)  
+[5주차 : 클래스](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week5.md)  
+[6주차 : 상속](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week6.md)  
 7주차 : 패키지   
 8주자 : 인터페이스   
 9주차 : 예외 처리  

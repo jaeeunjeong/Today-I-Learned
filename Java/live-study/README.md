@@ -9,7 +9,7 @@
 [4주차 : 제어](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week4.md)  
 [5주차 : 클래스](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week5.md)  
 [6주차 : 상속](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week6.md)  
-7주차 : 패키지   
+[7주차 : 패키지](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week7.md)   
 8주자 : 인터페이스   
 9주차 : 예외 처리  
 10주차 : 멀티쓰레드 프로그래밍  

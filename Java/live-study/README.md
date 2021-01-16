@@ -10,8 +10,8 @@
 [5주차 : 클래스](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week5.md)  
 [6주차 : 상속](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week6.md)  
 [7주차 : 패키지](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week7.md)   
-8주자 : 인터페이스   
-9주차 : 예외 처리  
+[8주자 : 인터페이스](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week8.md)   
+[9주차 : 예외 처리](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week9.md)  
 10주차 : 멀티쓰레드 프로그래밍  
 11주차 : Enum  
 12주차 : 애노테이션  

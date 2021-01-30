@@ -13,7 +13,7 @@
 [8주자 : 인터페이스](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week8.md)   
 [9주차 : 예외 처리](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week9.md)  
 [10주차 : 멀티쓰레드 프로그래밍](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week10.md)  
-11주차 : Enum  
+[11주차 : Enum](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week11.md)  
 12주차 : 애노테이션  
 13주차 : I/O  
 14주차 : 제네릭  

@@ -68,12 +68,17 @@ JIT(Just In Time)
   인터프리터와 같이 동작함.(interpreter은 하나 하나 해석하는 방식)  
   single thread처럼 사용됨.  
   자주 사용되는 기계어로 생각되면 caching해 두었다가 사용함.   
+  class -> interpreter가 아니라 class-> 기계어 방식  
+  빈번하게 사용되는 클래스라면 cache에 저장해두었다가, 꺼내써서 빠르게 사용 가능하도록 해준다.
 ## JVM 구성 요소
   Class Loader  
+   - .java를 실제로 사용하기 위해 jvm에 로드 하는 것.
    - bytecode를 읽어서 merory에 적절하게 배치. 
    - Loading->Link->initialization  
    
-  Runtime Data Areas : JVM이 OS위에 올라가서 실행될때, OS가 할당해주는 메모리 영역  
+  Runtime Data Areas
+   - JVM이 OS위에 올라가서 실행될때, OS가 할당해주는 메모리 영역  
+   - 자바는 runtime에 메모리가 할당되기에 이 위치에 있는 클래스들은 실행될 클래스들!
   
   Execution Engeine 
     : Interpreter/JIT/GC 등이 존재.  

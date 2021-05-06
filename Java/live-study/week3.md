@@ -83,5 +83,20 @@ System.out.println(bigger);//큰 수가 출력됨.
 6. 대입 연산자 = 
 ## (optional) Java 13. switch 연산자 
 
+##
+``
+int start = 0;
+int end = 1;
+
+int result = (start+end) / 2; //overflow가 생길 수 있다.
+//왜냐면 int + int > int 자료형 범위를 벗어날 수 있기에!!!
+int start = 21억 이상
+int end = 21억 이상
+int result = (start+end) / 2; //이상한 값이 나온다.
+overflow의 값을 나누기에 값이 이상해짐.
+//안전하게 나누기.
+int result = start +(end - start) /2
+int result = (start + end) >>>1;//음수는 안 됨.
+``
    ### 참고 자료  
   남궁 성, Java의 정석, 도우출판  

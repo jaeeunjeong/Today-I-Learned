@@ -61,5 +61,63 @@ int result = c.sum(1,2);
 그래야 람다식과 인터페이스 메서드가 1:1로 연결될 수 있다.  
 0. @FunctionalInterface를 꼭 붙여주자.  
 -> 컴파일러가 함수형 인터페이스를 올바르게 구현하였는지 확인해준다.
+### 함수형 인터페이스 타입의 매개변수와 반환타입
+```
+@FunctionalInterface
+interface DrawingInterface{
+	void sketch();
+}
+```
+추상 메서드가 선언된 인터페이스를 매개변수로서 사용한다면, 이 메서드를 호출할 떄 람다식을 참조하는 매개변수를 지정해주어야한다.  
+따라서 람다식을 참조변수처럼도 사용가능한데, 이는 메서드를 이용해서 람다식을 주고 받을 수 있다는 뜻이다.
+즉, 변수처럼 메서드를 다룰 수 있음을 의미한다.
+```
+@FunctionalInterface
+interface DrawingInterface{
+	void sketch();
+}
+
+class practice {
+	static void execute(DrawingInterface drawingInterface) {
+		drawingInterface.sketch();
+	}
+	
+	static DrawingInterface getDrawingInterface() {
+		DrawingInterface d = () -> System.out.println("LET'S SKETCH!!");
+		return d;
+	}
+	
+	public static void main(String[] args) {
+		DrawingInterface d1 = () -> System.out.println("WARMING UP!");
+		
+		DrawingInterface d2 = new DrawingInterface() {
+			
+			@Override
+			public void sketch() {
+				// TODO Auto-generated method stub
+				System.out.println("SETTING");
+			}
+		};
+		
+		DrawingInterface d3 = getDrawingInterface();
+		
+		d1.sketch();
+		d2.sketch();
+		d3.sketch();
+		
+		execute(d1);
+		execute(() -> System.out.println("sketch()"));
+	}
+}
+```
+
+결과
+```
+WARMING UP!
+SETTING
+LET'S SKETCH!!
+WARMING UP!
+sketch()
+```
 ## Variable Capture
 ## 메소드, 생성자 레퍼런스

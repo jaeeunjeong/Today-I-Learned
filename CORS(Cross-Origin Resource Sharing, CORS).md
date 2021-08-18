@@ -1,27 +1,42 @@
 # CORS (Cross-Origin Resource Sharing, CORS)
 ## 정의
-A라는 애플리케이션에 B라는 애플리케이션이 접근하려고 할 때, 보안상의 이유로 접근이 불가능하다.  
-이때, 접근이 가능하도록 권한을 부여하는 것을 의미한다.
+Cross Origin Resource Sharing 의 약자로 
+웹 애플리케이션은 자신의 출처(도메인, 프로토콜, 포트 등)과 다른 곳에 접근하고자 할때 보안상의 이유로 접근을 제한한다.  
+다른 출처에 접근하여 리소스를 불러오려면 접근을 허가한다는 응답을 받아야한다. 
 ## 원인
 보안 상의 이유로 도메인(출처)이 다르다면 리소스를 불러올 수 없고, 동일한 것만 가능하다.  
 만약, 다른 도메인간의 리소스를 불러오려면 올바른 CORS 헤더를 포함한 응답을 반환해야한다. 
 
-## 사용하는 경우
- - XMLHttpRequest와 Fetch API 호출.
- - 웹 폰트(CSS 내 @font-face에서 교차 도메인 폰트 사용 시)
- - drawImage() (en-US)를 사용해 캔버스에 그린 이미지/비디오 프레임.
- - 이미지로부터 추출하는 CSS Shapes.
-
-## 기능적 개요
-웹 브라우저에서 해당 정보를 읽는 것이 허용된 주소를 서버에서 알 수 있는 새로운 HTTP 헤더를 추가함으로써 동작한다.  
-추가적으로, 서버 데이터에 부수 효과(side effect)를 일으킬수 있는 HTTP 요청 메서드에 대해 CORS에는 다음과 같이 명세되어있다.  
-1. 브라우저가 요청을 OPTION 메서드로 preflight하여 지원하는 메서드를 요청한다.  
-0. 이후 서버의 허가가 떨어지면 실제 요청을 보내도록 요구한다  
-
-추가로 서버는 클라이언트에 "인증 정보"를 요청과 함께 보내야한다고 알려줄 수도 있다.  
-
 ## Simple requests
-`하나의 메서드 + User Agent가 자동으로 설정한 헤더` 를 갖고 요청
+서버 헤더의 **Access-Control-Allow-Origin**에 요청의 Origin 헤더에서 전송된 값을 설정하여 맞으면 접속을 허가한다.
+1. 클라이언트(브라우저)는 서버에 접속을 요청하고 서버는 응답을 확인한다.  
+
+### 요청 헤더
+```
+GET /resources/public-data/ HTTP/1.1
+Host: iamserver.real
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Connection: keep-alive
+Origin: https://hello.client
+```
+헤더의 Origin에서 요청이 https://hello.client 임을 알 수 있다.  
+
+2. 서버는 **Access-Control-Allow-Origin**에 클라이언트의 정보를 넣어 접근을 허거한다.
+```
+HTTP/1.1 200 OK
+Date: Mon, 01 Dec 2008 00:23:53 GMT
+Server: Apache/2
+Access-Control-Allow-Origin: https://hello.client
+Keep-Alive: timeout=2, max=100
+Connection: Keep-Alive
+Transfer-Encoding: chunked
+Content-Type: application/xml
+
+[…XML Data…]
+```
 #### 하나의 메서드
 GET, HEAD, POST
 #### User Agent가 자동으로 설정한 헤더
@@ -39,8 +54,8 @@ GET, HEAD, POST
  - multipart/form-data
  - text/plain
 ## Preflight
-1. OPTIONS 메서드를 통해 다른 도메인의 리소스로 HTTP 요청을 보낸 후, 실제 요청이 전송하기에 안전한지 확인한다.
-0. 안전하다면 다시 요청하고 응답받고, 안전하지 않다면 재요청하지 않는다.  
+- simple request와 달리 **OPTIONS**메서드를 통해 실제 요청이 전송하기에 안전한지 확인한다.
+- Cross-site 요청은 유저 데이터에 영향을 줄 수 있기에 미리 전송해야한다.
 
 ### 참고
 실제 POST 요청에는 `Access-Control-Request-*` 헤더가 포함되지 않는다.  

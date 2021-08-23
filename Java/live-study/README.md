@@ -1,24 +1,29 @@
-# live-study with whiteship
-백기선(whiteship)님께서 [YouTube](https://www.youtube.com/user/whiteship2000)로 진행하는 [라이브 스터디 프로젝트](https://github.com/whiteship/live-study)의 참여를 통해 Java를 공부합니다.
+# Today-I-Learned
 
-## 목차
-### 시즌1
-[1주차 : 자바 소스 파일(.java)을 JVM으로 실행하는 과정 이해하기.](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week1_JVM은_무엇이며_자바_코드는_어떻게_실행하는_것인가.md)  
-[2주차 : 자바 데이터 타입, 변수 그리고 배열](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week2.md)  
-[3주차 : 연산자](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week3.md)  
-[4주차 : 제어](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week4_제어문.md)  
-[5주차 : 클래스](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week5.md)  
-[6주차 : 상속](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week6.md)  
-[7주차 : 패키지](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week7_패키지.md)   
-[8주자 : 인터페이스](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week8.md)   
-[9주차 : 예외 처리](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week9.md)  
-[10주차 : 멀티쓰레드 프로그래밍](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week10.md)  
-[11주차 : Enum](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week11.md)  
-[12주차 : 애노테이션](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week12.md)  
-13주차 : I/O  
-14주차 : 제네릭  
-[15주차 : 람다식](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week15.md)   
-### 시즌2
-1주차 : 문자열  
-2주차 : java.lang 패키지    
-3주차 : 스트림  
+# DataBase
+[DataBase](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/DataBase/DataBase.md)  
+[Trigger](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/DataBase/Trigger.md)  
+
+## DataStructure
+[Map](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/DataStructure/Map.md)  
+[SortMap.java](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/DataStructure/SortMap.java)  
+
+## DesignPattern
+[DesignPatterns](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/DesignPatterns/DesignPatterns.md)  
+
+## Java
+[live-study](https://github.com/jaeeunjeong/Today-I-Learned/tree/master/Java/live-study)  
+
+## javaScript
+[templates](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/JavaScript/templates.md)  
+
+## OS
+[File and File System](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/OS/File%20and%20File%20System.md)  
+[Page](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/OS/Page.md)  
+
+## Spring
+[Annotation](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Spring/Annotation.md)  
+[Spring](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Spring/Spring.md)  
+
+## ETC
+[Regex](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week12.md)  

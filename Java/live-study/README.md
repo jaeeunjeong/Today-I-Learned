@@ -4,8 +4,7 @@
 
 ## 목차
 ### 시즌1
-[1주차 : 자바 소스 파일(.java)을 JVM으로 실행하는 과정 이해하기.]
-(https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week1_JVM은_무엇이며_자바_코드는_어떻게_실행하는_것인가.md)  
+[1주차 : 자바 소스 파일(.java)을 JVM으로 실행하는 과정 이해하기.](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week1_JVM은_무엇이며_자바_코드는_어떻게_실행하는_것인가.md)  
 [2주차 : 자바 데이터 타입, 변수 그리고 배열](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week2.md)  
 [3주차 : 연산자](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week3.md)  
 [4주차 : 제어](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week4_제어문.md)  

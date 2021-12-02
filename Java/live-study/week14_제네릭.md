@@ -227,7 +227,7 @@ JUICE WITH APPLE : APPLE APPLE
 ANY KIND OF JUICE YOU WANT : APPLE APPLE 
 ```
 
-### 제네렉의 형변환
+### 제네릭의 형변환
 일반적으로 불가능하지만 와일드카드를 이용하면 가능하다.
 ```
 //Box<Fruit> appleBox =   (Box<Fruit>)new Box<Apple>();

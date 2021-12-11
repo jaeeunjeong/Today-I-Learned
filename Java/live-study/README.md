@@ -18,7 +18,7 @@
 [12주차 : 애노테이션](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week12.md)  
 13주차 : I/O  
 [14주차 : 제네릭](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week14_%EC%A0%9C%EB%84%A4%EB%A6%AD.md)  
-[15주차 : 람다식](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week15.md)   
+[15주차 : 람다식](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week15_%EB%9E%8C%EB%8B%A4%EC%8B%9D.md)   
 ### 시즌2
 1주차 : 문자열  
 2주차 : java.lang 패키지    

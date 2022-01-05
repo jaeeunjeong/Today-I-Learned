@@ -24,17 +24,21 @@ try{
 ```
 *여러개의 catch를 쓴다면, 순서대로 쓰는 것이 중요하다. 작은 부분(구체적)에서 큰 부분(포괄적)으로 넓어지듯 써야한다. -> 컴파일에러*
 ### throw
+고의로 예외를 발생시킬 때 사용.  
+예외처리를 해당 클래스에서 하는 것이 아니라 호출한 곳에다가 떠넘긴다.
 ```
-throw
+public void main(String[] args)) {
+   int N = 0;
+   if(N == 0) throw new NullPointerException();
+}
 ```
 
-고의로 예외를 발생시킬 때  
 ### throws
 선언부에 적어서 오류 처리를 다른 메서드에 떠넘기기  
 ```
-public static sumData() throws IOException{
-Scanner sc = new Scanner();
-int a = ...
+public static void main(String[] args) throws IOException {
+   BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+   StringTokenizer st;
 }
 ```
 ### try ~ catch ~ finally
@@ -65,15 +69,18 @@ try{
 *Exception*은 프로그래머가 수습 가능한 장애를 말한다.
 
 ## RuntimeException과 RE가 아닌 것의 차이는?
-runtime은 프로그래머 실수에 의한 것이라 실행이 잘 될 수도 있고 안 될 수도 있어서 일단은 실행하는 것이 중요하다...,  
- 자바 프로그래밍 요소와 관련 있는 것이 많다.  
- runtimeException은 
-ex)IndexOutOfEception, NullPointException,ClassCastException
-그 외의 오류들은 사용자 실수에 의한 것이 많아서, 아예 실행 자체를 안 하게 하는 것이 좋다  
-ex)FileNotFoindException, DataFormatException
+Exception은 크게 두 가지로 나눌 수 있다.  
+RuntimeException과 RuntimeException이 아닌 것.  
+|-| RuntimeException | 그 외|  
+|--------|----|----|
+에러 발생 시점 | Runtime (실행 중)| 컴파일 시점
+에러 발생 원인 | 프로그래머의 실수| 사용자 사용에 의해 에러 발생 
+예외 처리 유무 | 안해도 됨. **unchecked**| 무조건 해야함 **checked**
+에러 예시 | IndexOutOfEception, NullPointException| FileNotFoindException, DataFormatException
+
+
 ## 커스텀한 예외 만드는 방법
 사용자가 예외를 만들 수 있는데, exception을 오버라이드 해서 사용가능하고, 필요에 따라 예외 클래스를 만들 수도 있음.
  - 4가지 best practices
-   ### 참고 자료  
+### 참고 자료  
 남궁 성, Java의 정석, 도우출판  
-//

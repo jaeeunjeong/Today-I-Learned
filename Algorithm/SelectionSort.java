@@ -1,13 +1,12 @@
-
+/**
+ * 가장 작은 것만 찾기위해 재귀/for문을 이용해서 값을 구한다.
+ */
 public class SelectionSort {
-	/**
-	 * 가장 작은 것을 발견 할 떄까지 재귀적으로 호출한다.
-	 */
 	public static void init(int[] arr) {
-		selectionSort(arr, 0);
+		selectionSortByRecursive(arr, 0);
 	}
 
-	public static void selectionSort(int[] arr, int start) {
+	public static void selectionSortByRecursive(int[] arr, int start) {
 		if (start == arr.length)
 			return;
 
@@ -21,7 +20,7 @@ public class SelectionSort {
 			}
 		}
 		swap(min_idx, start, arr);
-		selectionSort(arr, start + 1);
+		selectionSortByRecursive(arr, start + 1);
 
 	}
 
@@ -32,12 +31,30 @@ public class SelectionSort {
 	}
 
 	public static void print(int[] arr) {
-		for (int x : arr)	System.out.print(x + " ");
+		for (int x : arr)
+			System.out.print(x + " ");
+	}
+
+	public static void selectionSortByLoop(int[] arr) {
+		for (int i = 0; i < arr.length - 1; i++) {
+			int max = arr[i];
+			int idx = i;
+			for (int j = i + 1; j < arr.length; j++) {
+				if (max < arr[j]) {
+					idx = j;
+					max = arr[j];
+				}
+			}
+			max = arr[i];// temp의 의미임
+			arr[i] = arr[idx];
+			arr[idx] = max;
+		}
 	}
 
 	public static void main(String[] args) {
 		int[] arr = { 20, 22, 1, 26, 11, 23 };
-		init(arr);
+		// init(arr);
+		selectionSortByLoop(arr);
 		print(arr);
 	}
 }

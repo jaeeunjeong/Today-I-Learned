@@ -8,4 +8,7 @@
 # Hash
 [Hash Table](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/HashTable.md)
 # Sort
-[SelectionSort](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/SelectionSort.java)
+[QuickSort](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/Sort/QuickSort.java)  
+[MergeSort](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/Sort/MergeSort.java)  
+[BubbleSort]()  
+[SelectionSort](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/SelectionSort.java)  

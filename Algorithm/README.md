@@ -3,9 +3,9 @@
 - [LinkedList]()
 - [Graph]()
 - [Tree]()
-- [Heap](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/Heap.md)
-- [Hash](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/Hash.md)
-- [Hash Table](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/HashTable.md)
+- [Heap](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/Data_Structure/Heap.md)
+- [Hash](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/Data_Structure/Hash.md)
+- [Hash Table](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/Data_Structure/HashTable.md)
 
 # Sort
 - [QuickSort](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Algorithm/Sort/QuickSort.java)  

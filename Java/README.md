@@ -18,5 +18,6 @@
 [15주차 : 람다식](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week15_%EB%9E%8C%EB%8B%A4%EC%8B%9D.md)   
 
 ## 그 외
-[java.lang_패키지.md](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/java.lang_%ED%8C%A8%ED%82%A4%EC%A7%80.md)  
-[스트림.md](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/%EC%8A%A4%ED%8A%B8%EB%A6%BC.md)
+[java.lang_패키지](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/java.lang_%ED%8C%A8%ED%82%A4%EC%A7%80.md)  
+[스트림](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/%EC%8A%A4%ED%8A%B8%EB%A6%BC.md)  
+[자바_배열_복사](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/%EC%9E%90%EB%B0%94_%EB%B0%B0%EC%97%B4_%EB%B3%B5%EC%82%AC.md)  

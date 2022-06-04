@@ -22,8 +22,9 @@ Primitive -> Wrapper : Boxing
 |---|---|---|
 |Null 가능 |  O  |  X  |
 |연산 가능 |  X | O |
+
 **JDK1.5부터는 AutoBoxing/AutoUnboxing이 도입되어 지원되었다.**
-~~하지만 권장하지 않는 게 속도가 느리다.~~
+~~하지만 속도가 느리기 때문에 권장하지 않음.~~
 ### 형태
 |Wrapper|Primitive|
 |---|---|

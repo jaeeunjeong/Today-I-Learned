@@ -20,7 +20,7 @@
 [8주자 : 인터페이스](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week8.md)   
 [9주차 : 예외 처리](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week9_%EC%98%88%EC%99%B8_%EC%B2%98%EB%A6%AC.md)  
 [10주차 : 멀티쓰레드 프로그래밍](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week10.md)  
-[11주차 : Enum](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week11.md)  
+[11주차 : Enum](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week11_Enum.md)  
 [12주차 : 애노테이션](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week12.md)  
 13주차 : I/O  
 [14주차 : 제네릭](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week14_%EC%A0%9C%EB%84%A4%EB%A6%AD.md)  

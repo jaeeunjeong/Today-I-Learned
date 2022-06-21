@@ -11,7 +11,7 @@
 [8주자 : 인터페이스](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week8.md)   
 [9주차 : 예외 처리](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week9_%EC%98%88%EC%99%B8_%EC%B2%98%EB%A6%AC.md)  
 [10주차 : 멀티쓰레드 프로그래밍](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week10.md)  
-[11주차 : Enum](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week11.md)  
+[11주차 : Enum](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week11_Enum.md)  
 [12주차 : 애노테이션](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week12.md)  
 13주차 : I/O  
 [14주차 : 제네릭](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/live-study/week14_%EC%A0%9C%EB%84%A4%EB%A6%AD.md)  
@@ -20,6 +20,8 @@
 ## 그 외
 [java.lang_패키지](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/java.lang_%ED%8C%A8%ED%82%A4%EC%A7%80.md)  
 [스트림](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/%EC%8A%A4%ED%8A%B8%EB%A6%BC.md)  
+  - [스트림 연습 예제1](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/StreamEx1.java)  
+
 [자바_배열_복사](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/Java/%EC%9E%90%EB%B0%94_%EB%B0%B0%EC%97%B4_%EB%B3%B5%EC%82%AC.md)  
 ### 추가 학습  
 - [1주차 항목 관련 추가 학습](https://github.com/jaeeunjeong/Today-I-Learned/edit/master/Java/live-study/week1_selfstudy.md)

@@ -26,6 +26,13 @@
 - web에서 요청하는 파라미터를 맵핑하여 사용된다.
 - post 형태로 보내는 파라미터, form 형태의 파라미터, Multipart 형태의 파라미터가 맵핑된다.
 
+### @Data
+- @Getter : 생성된 객체를 getter로 만들어준다.
+- @Setter : public 으로 생성된 객체를 setter로 만들어준다.
+- @RequiredArgsConstruct : private final로 선언된 객체를 포함하는 생성자를 만들어준다.
+- @ToString : 디버깅이나 로그를 남기기 위해 사용한다.
+- @EqualsAndHashCode : equals와 hashcode를 만들어서 객체를 비교를 해준다.
+- @Value : 프로퍼티를 읽을 때 사용
 
 ### 참고
 spring document

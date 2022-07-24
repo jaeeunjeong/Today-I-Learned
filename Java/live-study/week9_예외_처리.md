@@ -81,6 +81,10 @@ RuntimeException과 RuntimeException이 아닌 것.
 
 ## 커스텀한 예외 만드는 방법
 사용자가 예외를 만들 수 있는데, exception을 오버라이드 해서 사용가능하고, 필요에 따라 예외 클래스를 만들 수도 있음.
+```
+public class AccessDeniedException extends RuntimeException{
+}
+```
  - 4가지 best practices
 ### 참고 자료  
 남궁 성, Java의 정석, 도우출판  

@@ -32,6 +32,8 @@
 - @RequiredArgsConstruct : private final로 선언된 객체를 포함하는 생성자를 만들어준다.
 - @ToString : 디버깅이나 로그를 남기기 위해 사용한다.
 - @EqualsAndHashCode : equals와 hashcode를 만들어서 객체를 비교를 해준다.
+  - Equals : 객체의 값이 같은지 확인 (동등성)
+  - Hashcode : 객체의 고유 값이 같은지 확인 (동일성)
 - @Value : 프로퍼티를 읽을 때 사용
 
 ### 참고

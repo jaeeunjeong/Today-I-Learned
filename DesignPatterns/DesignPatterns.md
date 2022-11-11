@@ -61,3 +61,6 @@ public final class PostsBuilder {
 ```
 위와 같은 방식으로 사용.  
 - Lombok의 **@Bulider** 가 이를 구현해주는 annotation이다.  
+## 
+- 프록시 패턴 : 설정과 같은 용도로 공통화 하는 것
+- 데코레이터 패턴 : 기능을 추가하고자 공통화 하는 것

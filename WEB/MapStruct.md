@@ -5,6 +5,7 @@
 - 컴파일 시점에서 맵핑을 해준다.
 - @mapping annotation을 이용한다.
 - 리플렉션이 발생하지 않는다. → 컴파일 시점에서 맵핑을 하기 때문임
+- default 메서드를 이용해서 직접 매핑을 할 수도 있다.
 
 ## 참고
 https://meetup.toast.com/posts/213

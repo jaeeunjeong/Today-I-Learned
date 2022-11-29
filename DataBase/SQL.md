@@ -35,3 +35,12 @@ Transaction Control Language
 논리적 작업 단위로 DML에 의해 작업 된 결과를 트랜잭션 단위로 제어하는 명령어  
 - COMMIT : 트랜잭션의 작업 결과를 반영
 - ROLLBACK : 트랜잭션 작업 취소 및 이전 작업으로 되돌리기
+
+### case-when
+- 다중 조건문을 쓸 때 사용
+```
+case
+  when '조건' then '결과 값'
+  else '결과 값'
+end
+```

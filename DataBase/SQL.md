@@ -44,3 +44,10 @@ case
   else '결과 값'
 end
 ```
+sum으로도 사용 가능!
+```
+case a.order_status
+ when 'reservation' then 1
+ else 0 end reservation_count
+```
+조건에 맞으면 reservation_count에 1씩 추가된다.

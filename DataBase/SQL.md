@@ -51,3 +51,8 @@ case a.order_status
  else 0 end reservation_count
 ```
 조건에 맞으면 reservation_count에 1씩 추가된다.
+### 번호 매기기
+```
+select CAST(@ROWNUM := @ROWNUM + 1 ) AS 'No',
+```
+- := 0 : 0 으로 초기화

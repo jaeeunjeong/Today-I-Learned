@@ -2,8 +2,8 @@
 # Design Pattern
 ## 목차
 - [Builder](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/DesignPatterns/Builder.md)
-- [ ] [Proxy](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/DesignPatterns/Proxy.md)
-- [ ] Decorator
+- [Proxy](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/DesignPatterns/Proxy.md)
+- [ ] [Decorator](https://github.com/jaeeunjeong/Today-I-Learned/blob/master/DesignPatterns/Decorator.md)
 
 
 ## 그 밖에

@@ -38,17 +38,24 @@ static class IntObservable extends Observable implements Runnable {
         }
     }
 }
+
 public static void main(String[] args) {
-    Observer observer = new Observer() {
+    Observer ob = new Observer() {
         @Override
         public void update(Observable o, Object arg) {
-            System.out.println(arg);
+            System.out.println(Thread.currentThread().getName()+ " " + arg);
         }
     };
-    IntObservable io = new IntObservable();
-    io.addObserver(observer);
 
-    io.run();
+    IntObservable io = new IntObservable();
+    io.addObserver(ob);
+
+    //외부 스레드에서 수행되도록 처리
+    ExecutorService es = Executors.newSingleThreadExecutor();
+    es.execute(io);
+
+    System.out.println(Thread.currentThread().getName() + " EXIT");
+    es.shutdown();
 }
 ```
 ### Observer Pattern

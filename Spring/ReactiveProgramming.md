@@ -26,10 +26,9 @@ public static void main(String[] args) {
 ```
 1 2 3 4 5 6 7 8 9 10
 ```
-<-> durable
-#### Durable/ Observable
+#### Observable (Durable)
 ```
-static class IntObservable extends Observable implements Runnable {
+static class IntObservable extends Observable implements Runnable { // publisher, 데이터를 보내는 쪽
     @Override
     public void run() {
         for (int i = 1; i <= 10; i++) {
@@ -40,7 +39,7 @@ static class IntObservable extends Observable implements Runnable {
 }
 
 public static void main(String[] args) {
-    Observer ob = new Observer() {
+    Observer ob = new Observer() { // subscriber, 데이터를 받는 쪽
         @Override
         public void update(Observable o, Object arg) {
             System.out.println(Thread.currentThread().getName()+ " " + arg);
@@ -59,7 +58,9 @@ public static void main(String[] args) {
 }
 ```
 ### Observer Pattern
-
+- 데이터를 가져온 다음에 한꺼번에 보내주는, multicast가 가능하다.
+- 비동기적으로 작업을 진행하고 필요할 때 가져올 수 있다.
+- Iterator와 Observer 둘은 같은 기능을 하는데 방식이 pull/push로 다르다.
 ### Reactive Streams
 - Publish, Subscriber 의 동작 패턴
 ```

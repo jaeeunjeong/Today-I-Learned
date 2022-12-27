@@ -80,7 +80,7 @@ public class PubSub {
         // Publisher : Observable에 해당함. : 잠재적으로 한계가 없는 연속된 요소들을 제공하는 것
         // Subscriber : Observer에 해당함. : 제공을 받을 수 있는 것
 
-        // 프로토콜을 따라야함. onsubscrebe는 반드시 호출 onnext는 호출해도 되고 안해도 되고, onerror,oncomplete는 완전 옵션
+        // 프로토콜을 따라야함. onsubscrebe는 반드시 호출 onnext는 호출해도 되고 안해도 되고 완전 옵션, onerror,oncomplete는 종료 호출인데 둘 중에 하나는 꼭 호출해야한다.
 
         ExecutorService es = Executors.newSingleThreadExecutor();
 
@@ -92,7 +92,7 @@ public class PubSub {
 
                 subscriber.onSubscribe(new Subscription() {
                     @Override
-                    public void request(long n) {
+                    public void request(long n) { // 이벤트를 요청하는 것. n개만큼 받고싶다.
                         es.execute(() -> {
                             int i = 0;
 //                        Feature<?> f = es.submit(() -> { // 진행상황을 파악하고 싶을 때 사용
@@ -155,3 +155,4 @@ public class PubSub {
 }
 
 ```
+*Publisher가 subscribe를 제공하고, Subscriber가 그것을 호출한다.*

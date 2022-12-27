@@ -156,3 +156,132 @@ public class PubSub {
 
 ```
 *Publisher가 subscribe를 제공하고, Subscriber가 그것을 호출한다.*
+
+
+### Operators
+- map
+- sum
+```
+package test;
+
+import lombok.extern.slf4j.Slf4j;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+// operator
+// 종류
+// 1. map : 데이터를 가공해서 새로운 데이터를 만드는 것
+@Slf4j
+public class PubSub {
+    public static void main(String[] args) {
+        Publisher<Integer> pub = getIterPub();
+        pub.subscribe(logSub());
+
+        //
+        Publisher<Integer> mapPub = mapPub(pub, (Function<Integer, Integer>) s -> s * 10);
+        Publisher<Integer> map2Pub = mapPub(mapPub,s -> -s);
+        mapPub.subscribe(logSub());
+        
+    }
+
+    // operator
+    private static Publisher<Integer> mapPub(Publisher<Integer> pub, Function<Integer, Integer> f) {
+        return new Publisher<Integer>() {
+            @Override
+            public void subscribe(Subscriber<? super Integer> sub) {
+                pub.subscribe(new DelegateSub(sub){
+                    @Override
+                    public void onNext(Integer integer) {
+                        sub.onNext(f.apply(i));
+                    }
+                });
+            }
+        };
+    }
+
+    private static Subscriber<Integer> logSub() {
+        return new Subscriber<Integer>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                log.debug("onSubscribe");
+                s.request(Long.MAX_VALUE); // 데이터 무제한으로 받으려고 임의로 설정
+            }
+
+            @Override
+            public void onNext(Integer i) {
+                log.debug("onNext:{}", i);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                log.debug("onErrorL:{}", t);
+            }
+
+            @Override
+            public void onComplete() {
+                log.debug("onComplete:");
+            }
+        };
+    }
+
+    private static Publisher<Integer> getIterPub() {
+        return new Publisher<Integer>() {
+            Iterable<Integer> iter = Stream.iterate(1, a -> a + 1).limit(10)
+                    .collect(Collectors.toList());
+
+            @Override
+            public void subscribe(Subscriber<? super Integer> sub) {
+                sub.onSubscribe(new Subscription() {
+                    @Override
+                    public void request(long n) {
+                        try {
+                            iter.forEach(s -> sub.onNext(s));
+                            sub.onComplete(); // 완료하면 꼭 날려줘야함.
+                        } catch (Throwable t) {
+                            sub.onError(t);
+                        }
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                });
+            }
+        };
+    }
+
+    private static class DelegateSub implements Subscriber<Integer> {
+        private final Subscriber<? super Integer> sub;
+
+        public DelegateSub(Subscriber sub) {
+            this.sub = sub;
+        }
+
+        @Override
+        public void onSubscribe(Subscription s) {
+            sub.onSubscribe(s);
+        }
+
+        @Override
+        public void onNext(Integer integer) {
+            sub.onNext(integer);
+        }
+
+        @Override
+        public void onError(Throwable t) {
+            sub.onError(t);
+        }
+
+        @Override
+        public void onComplete() {
+            sub.onComplete();
+        }
+    }
+}
+```

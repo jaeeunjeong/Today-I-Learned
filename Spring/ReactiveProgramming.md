@@ -162,17 +162,6 @@ public class PubSub {
 - map
 - sum
 ```
-package test;
-
-import lombok.extern.slf4j.Slf4j;
-import org.reactivestreams.Publisher;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 // operator
 // 종류
 // 1. map : 데이터를 가공해서 새로운 데이터를 만드는 것
@@ -184,9 +173,59 @@ public class PubSub {
 
         //
         Publisher<Integer> mapPub = mapPub(pub, (Function<Integer, Integer>) s -> s * 10);
-        Publisher<Integer> map2Pub = mapPub(mapPub,s -> -s);
+        Publisher<Integer> map2Pub = mapPub(mapPub, s -> -s);
         mapPub.subscribe(logSub());
-        
+
+        Publisher<Integer> sumPub = sumPub(pub);
+        sumPub.subscribe(logSub());
+
+        Publisher<Integer> reducePub = reducePub(pub, 0, (BiFunction<Integer, Integer, Integer>) (a, b) -> a + b);
+        reducePub.subscribe(logSub());
+    }
+
+    private static Publisher<Integer> reducePub(Publisher<Integer> pub, int init,
+                                                BiFunction<Integer, Integer, Integer> bf) {
+        return new Publisher<Integer>() {
+            @Override
+            public void subscribe(Subscriber<? super Integer> sub) {
+                pub.subscribe(new DelegateSub(sub) {
+                    int result = init;
+
+                    @Override
+                    public void onNext(Integer i) {
+                        result = bf.apply(result, i);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        sub.onNext(result);
+                        sub.onComplete();
+                    }
+                });
+            }
+        };
+    }
+
+    private static Publisher<Integer> sumPub(Publisher<Integer> pub) {
+        return new Publisher<Integer>() {
+            @Override
+            public void subscribe(Subscriber<? super Integer> sub) {
+                pub.subscribe(new DelegateSub(sub) {
+                    int sum = 0;
+
+                    @Override
+                    public void onNext(Integer i) {
+                        sum += i;
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        sub.onNext(sum);
+                        sub.onComplete();
+                    }
+                });
+            }
+        };
     }
 
     // operator
@@ -194,9 +233,9 @@ public class PubSub {
         return new Publisher<Integer>() {
             @Override
             public void subscribe(Subscriber<? super Integer> sub) {
-                pub.subscribe(new DelegateSub(sub){
+                pub.subscribe(new DelegateSub(sub) {
                     @Override
-                    public void onNext(Integer integer) {
+                    public void onNext(Integer i) {
                         sub.onNext(f.apply(i));
                     }
                 });

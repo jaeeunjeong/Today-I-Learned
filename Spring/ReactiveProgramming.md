@@ -324,3 +324,92 @@ public class PubSub {
     }
 }
 ```
+#### generic 으로 변환하기
+```
+@Slf4j
+public class PubSub {
+    public static void main(String[] args) {
+        Publisher<Integer> pub = getIterPub();
+        pub.subscribe(logSub());
+
+        //
+        Publisher<String> mapPub = mapPub(pub, s -> ":" + s + ":");
+        //Publisher<Integer> map2Pub = mapPub(mapPub, s -> -s);
+        mapPub.subscribe(logSub());
+
+        //Publisher<Integer> sumPub = sumPub(pub);
+        //sumPub.subscribe(logSub());
+
+        //Publisher<Integer> reducePub = reducePub(pub, 0, (BiFunction<T, T, T>) (a, b) -> a + b);
+        //reducePub.subscribe(logSub());
+    }
+
+    // operator
+    private static <T, R> Publisher<T> mapPub(Publisher<T> pub, Function<T, T> f) {
+        return new Publisher<T>() {
+            @Override
+            public void subscribe(Subscriber<? super T> sub) {
+                pub.subscribe(new DelegateSub<T, R>(sub) {
+                    @Override
+                    public void onNext(T i) {
+                        sub.onNext(f.apply(i));
+                    }
+                });
+            }
+        };
+    }
+
+    private static <T> Subscriber<T> logSub() {
+        return new Subscriber<T>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                log.debug("onSubscribe");
+                s.request(Long.MAX_VALUE); // 데이터 무제한으로 받으려고 임의로 설정
+            }
+
+            @Override
+            public void onNext(T i) {
+                log.debug("onNext:{}", i);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                log.debug("onErrorL:{}", t);
+            }
+
+            @Override
+            public void onComplete() {
+                log.debug("onComplete:");
+            }
+        };
+    }
+
+    private static class DelegateSub<T, R> implements Subscriber<T> {
+        private final Subscriber<? super T> sub;
+
+        public DelegateSub(Subscriber sub) {
+            this.sub = sub;
+        }
+
+        @Override
+        public void onSubscribe(Subscription s) {
+            sub.onSubscribe(s);
+        }
+
+        @Override
+        public void onNext(T i) {
+            sub.onNext(i);
+        }
+
+        @Override
+        public void onError(Throwable t) {
+            sub.onError(t);
+        }
+
+        @Override
+        public void onComplete() {
+            sub.onComplete();
+        }
+    }
+}
+```

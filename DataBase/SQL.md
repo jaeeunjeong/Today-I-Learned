@@ -56,3 +56,10 @@ case a.order_status
 select CAST(@ROWNUM := @ROWNUM + 1 ) AS 'No',
 ```
 - := 0 : 0 으로 초기화
+
+
+### DDL
+- USE **DB 이름** : DB에 들어가기 위한 명령어
+- GRANT ALL PRIVILEGES ON userid.* TO 'root'@'아이피' : 권한 주는 명령어
+- USE mysql에서 유용하게 쓰이는 명령어
+  - select user, host from user; : 어떤 계정이 어떤 환경에 권한이 있는지 알 수 있다.  

@@ -359,6 +359,27 @@ public class PubSub {
         };
     }
 
+    private static <T, R> Publisher<R> reducePub(Publisher<T> pub,R init, BiFunction<R, T, R> f) {
+        return new Publisher<R>() {
+            @Override
+            public void subscribe(Subscriber<? super R> sub) {
+                pub.subscribe(new DelegateSub<T, R>(sub) {
+                    R result = init;
+                    @Override
+                    public void onNext(T i) {
+                        result - bf.apply(result, i);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        sub.onNext(result);
+                        sub.onComplete();
+                    }
+                });
+            }
+        };
+    }
+
     private static <T> Subscriber<T> logSub() {
         return new Subscriber<T>() {
             @Override

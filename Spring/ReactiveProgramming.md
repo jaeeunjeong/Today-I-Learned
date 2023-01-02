@@ -179,7 +179,8 @@ public class PubSub {
         Publisher<Integer> sumPub = sumPub(pub);
         sumPub.subscribe(logSub());
 
-        Publisher<Integer> reducePub = reducePub(pub, 0, (BiFunction<Integer, Integer, Integer>) (a, b) -> a + b);
+        Publisher<Integer> reducePub = reducePub(pub, 0, (BiFunction<Integer, Integer, Integer>) (a, b) -> a + b));
+        Publisher<StringBuilder> reducePub = reducePub(pub, new StringBuilder(),(a, b) -> a.append(b+","));
         reducePub.subscribe(logSub());
     }
 
@@ -229,11 +230,11 @@ public class PubSub {
     }
 
     // operator
-    private static Publisher<Integer> mapPub(Publisher<Integer> pub, Function<Integer, Integer> f) {
-        return new Publisher<Integer>() {
+    private static <T> Publisher<T> mapPub(Publisher<T> pub, Function<T, T> f) {
+        return new Publisher<T>() {
             @Override
-            public void subscribe(Subscriber<? super Integer> sub) {
-                pub.subscribe(new DelegateSub(sub) {
+            public void subscribe(Subscriber<? super T> sub) {
+                pub.subscribe(new DelegateSub<T>(sub) {
                     @Override
                     public void onNext(Integer i) {
                         sub.onNext(f.apply(i));
@@ -434,3 +435,22 @@ public class PubSub {
     }
 }
 ```
+## reactor
+```
+public class ReactorEx {
+    public static void main(String[] args) {
+        Flux.create( e ->{
+            e.next(1);
+            e.next(2);
+            e.next(3);
+            e.complete();
+        })
+        .map(s->s*10) // 
+        .log() // 데이터가 어떻게 불러오게 되는지 확인 가능
+        .subscribe(System.out::println);
+    }
+}
+```
+### 스프링으로 확인해보기
+- publisher 만 만들면 스프링이 subscriber를 만들어서 제공해준다.
+- publisher를 리턴하면 되는데 스프링 mvc가 그 기능을 다 해준다.

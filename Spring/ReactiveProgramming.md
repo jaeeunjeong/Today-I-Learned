@@ -454,3 +454,86 @@ public class ReactorEx {
 ### 스프링으로 확인해보기
 - publisher 만 만들면 스프링이 subscriber를 만들어서 제공해준다.
 - publisher를 리턴하면 되는데 스프링 mvc가 그 기능을 다 해준다.
+## Scheduleres
+```
+@Slf4j
+public class SchedulerEx {
+    public static void main(String[] args) {
+        Publisher<Integer> pub  = sub -> {
+            sub.onSubscribe(new Subscription() {
+                @Override
+                public void request(long n) {
+                    sub.onNext(1);
+                    sub.onNext(2);
+                    sub.onNext(3);
+                    sub.onNext(4);
+                    sub.onNext(5);
+                    sub.onComplete();
+                }
+
+                @Override
+                public void cancel() {
+
+                }
+            });
+        };
+
+        // publishOn : 하나일 경우
+        Publisher<Integer> subOnPub = sub -> {
+            ExecutorService es = Executors.newSingleThreadExecutor();
+            es.execute(() -> pub.subscribe(sub));
+        };
+
+        // 여러개일 경우 publishOn 동작 방식
+        Publisher<Integer> subOnPub = sub -> {
+            ExecutorService es = Executors.newSingleThreadExecutor();
+
+            pub.subscribe(new Subscriber<Integer>() {
+                @Override
+                public void onSubscribe(Subscription s) {
+                    sub.onSubscribe(s);
+                }
+
+                @Override
+                public void onNext(Integer integer) {
+                    es.execute(() -> sub.onNext(integer));
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                    es.execute(() -> sub.onError(t));
+                }
+
+                @Override
+                public void onComplete() {
+                    es.execute(() -> sub.onComplete());
+                }
+            });
+        };
+
+        subOnPub.subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                log.debug("onSubscribe");
+                s.request(Long.MAX_VALUE);
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                log.debug("onNext : {} ", integer);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                log.debug("onError : {}", t);
+            }
+
+            @Override
+            public void onComplete() {
+                log.debug("onComplete");
+            }
+        });
+        System.out.println("EXIT");
+    }
+}
+```

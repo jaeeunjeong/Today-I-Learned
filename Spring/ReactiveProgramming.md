@@ -537,3 +537,45 @@ public class SchedulerEx {
     }
 }
 ```
+```
+        Publisher<Integer> subOnPub = sub -> {
+            ExecutorService es = Executors.newSingleThreadExecutor(new CustomizableThreadFactory() {
+                @Override
+                public String getThreadNamePrefix() {
+                    return "subOn-";
+                }
+            });
+            es.execute(() -> pub.subscribe(sub));
+        };
+
+        Publisher<Integer> pubOnPub = sub -> {
+            subOnPub.subscribe(new Subscriber<Integer>() {
+                ExecutorService es = Executors.newSingleThreadExecutor(new CustomizableThreadFactory() {
+                    @Override
+                    public String getThreadNamePrefix() {
+                        return "pubOn-";
+                    }
+                });
+
+                @Override
+                public void onSubscribe(Subscription s) {
+
+                }
+
+                @Override
+                public void onNext(Integer integer) {
+
+                }
+
+                @Override
+                public void onError(Throwable t) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            });
+        };
+```

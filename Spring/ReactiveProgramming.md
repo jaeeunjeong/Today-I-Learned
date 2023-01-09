@@ -1,5 +1,5 @@
 # ReactiveProgramming_
-## Scheduleres
+## Schedulers
 ```
 @Slf4j
 public class SchedulerEx {

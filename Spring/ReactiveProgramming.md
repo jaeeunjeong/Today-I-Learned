@@ -275,3 +275,69 @@ public class IntervalEx {
     }
 }
 ```
+#### Future
+```
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Objects;
+import java.util.concurrent.*;
+
+/**
+ * thread의 결과값을 받기 위한 것.
+ */
+@Slf4j
+public class FutureEx {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        ExecutorService es = Executors.newCachedThreadPool();
+
+        CallbackFutureTask f = new CallbackFutureTask(() -> {
+            Thread.sleep(2000); // interruptException이 발생할 수 있음.
+            log.info("Async");
+            return "Hello";
+        },
+        result -> System.out.println(result);
+        ;
+
+        FutureTask<String> f = new FutureTask<String>(() -> {
+            Thread.sleep(2000); // interruptException이 발생할 수 있음.
+            log.info("Async");
+            return "Hello";
+        }) {
+            @Override
+            protected void done() {
+                try {
+                    get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        es.execute(f);
+
+        log.info(f.get());
+        log.info("Exit");
+    }
+
+    interface SuccessCallback {
+        void onSuccess(String result);
+    }
+
+    public static class CallbackFutureTask extends FutureTask<String> {
+        SuccessCallback sc;
+
+        public CallbackFutureTask(Callable<String> callable, SuccessCallback sc) {
+            super(callable);
+            if (sc == null) throw null;
+            this.sc = Objects.requireNonNull(sc);
+        }
+
+        @Override
+        protected void done() {
+            sc.onSuccess(get());
+        }
+    }
+}
+```

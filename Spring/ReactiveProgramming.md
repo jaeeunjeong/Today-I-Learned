@@ -1,312 +1,73 @@
 # ReactiveProgramming_
-## Schedulers
-```
-@Slf4j
-public class SchedulerEx {
-    public static void main(String[] args) {
-        Publisher<Integer> pub  = sub -> {
-            sub.onSubscribe(new Subscription() {
-                @Override
-                public void request(long n) {
-                    sub.onNext(1);
-                    sub.onNext(2);
-                    sub.onNext(3);
-                    sub.onNext(4);
-                    sub.onNext(5);
-                    sub.onComplete();
-                }
 
-                @Override
-                public void cancel() {
-
-                }
-            });
-        };
-
-        // publishOn : 하나일 경우
-        Publisher<Integer> subOnPub = sub -> {
-            ExecutorService es = Executors.newSingleThreadExecutor();
-            es.execute(() -> pub.subscribe(sub));
-        };
-
-        // 여러개일 경우 publishOn 동작 방식
-        Publisher<Integer> subOnPub = sub -> {
-            ExecutorService es = Executors.newSingleThreadExecutor();
-
-            pub.subscribe(new Subscriber<Integer>() {
-                @Override
-                public void onSubscribe(Subscription s) {
-                    sub.onSubscribe(s);
-                }
-
-                @Override
-                public void onNext(Integer integer) {
-                    es.execute(() -> sub.onNext(integer));
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    es.execute(() -> sub.onError(t));
-                }
-
-                @Override
-                public void onComplete() {
-                    es.execute(() -> sub.onComplete());
-                }
-            });
-        };
-
-        subOnPub.subscribe(new Subscriber<Integer>() {
-            @Override
-            public void onSubscribe(Subscription s) {
-                log.debug("onSubscribe");
-                s.request(Long.MAX_VALUE);
-            }
-
-            @Override
-            public void onNext(Integer integer) {
-                log.debug("onNext : {} ", integer);
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                log.debug("onError : {}", t);
-            }
-
-            @Override
-            public void onComplete() {
-                log.debug("onComplete");
-            }
-        });
-        System.out.println("EXIT");
-    }
-}
-```
-```
-        Publisher<Integer> subOnPub = sub -> {
-            ExecutorService es = Executors.newSingleThreadExecutor(new CustomizableThreadFactory() {
-                @Override
-                public String getThreadNamePrefix() {
-                    return "subOn-";
-                }
-            });
-            es.execute(() -> pub.subscribe(sub));
-        };
-
-        Publisher<Integer> pubOnPub = sub -> {
-            subOnPub.subscribe(new Subscriber<Integer>() {
-                ExecutorService es = Executors.newSingleThreadExecutor(new CustomizableThreadFactory() {
-                    @Override
-                    public String getThreadNamePrefix() {
-                        return "pubOn-";
-                    }
-                });
-
-                @Override
-                public void onSubscribe(Subscription s) {
-
-                }
-
-                @Override
-                public void onNext(Integer integer) {
-
-                }
-
-                @Override
-                public void onError(Throwable t) {
-
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-            });
-        };
-```
-### flux로 만들어보기
-```
-import reactor.core.publisher.Flux;
-import reactor.core.scheduler.Schedulers;
-
-public class FluxScEx {
-    public static void main(String[] args) {
-        Flux.range(1, 10)
-                .publishOn(Schedulers.newSingle("pub"))
-                .log()
-                .subscribeOn(Schedulers.newSingle("sub"))
-                .subscribe(System.out::println);
-    }
-}
-```
-결과
-```
-[main] DEBUG reactor.util.Loggers$LoggerFactory - Using Slf4j logging framework
-[sub-1] INFO reactor.Flux.PublishOn.1 - | onSubscribe([Fuseable] FluxPublishOn.PublishOnSubscriber)
-[sub-1] INFO reactor.Flux.PublishOn.1 - | request(unbounded)
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onNext(1)
-1
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onNext(2)
-2
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onNext(3)
-3
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onNext(4)
-4
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onNext(5)
-5
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onNext(6)
-6
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onNext(7)
-7
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onNext(8)
-8
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onNext(9)
-9
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onNext(10)
-10
-[pub-2] INFO reactor.Flux.PublishOn.1 - | onComplete()
-```
-```
-public class FluxScEx {
-    public static void main(String[] args) throws InterruptedException {
-//        Flux.range(1, 10)
-//                .publishOn(Schedulers.newSingle("pub"))
-//                .log()
-//                .subscribeOn(Schedulers.newSingle("sub"))
-//                .subscribe(System.out::println);
-
-        Flux.interval(Duration.ofMillis(500))
-                .take(10)
-                .subscribe(System.out::println); // 실행이 안됨.
-        //[main] DEBUG reactor.util.Loggers$LoggerFactory - Using Slf4j logging framework
-
-        TimeUnit.SECONDS.sleep(10);
-    }
-}
-```
+## Future
+### Future
 ```
 import lombok.extern.slf4j.Slf4j;
-import org.reactivestreams.Publisher;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Future;
 
-@Slf4j
-public class IntervalEx {
-    public static void main(String[] args) {
-        Publisher<Integer> pub = sub -> {
-            sub.onSubscribe(new Subscription() {
-                int no = 0;
-                boolean cancelled = false;
-
-                @Override
-                public void request(long n) {
-                    ScheduledExecutorService exes = Executors.newSingleThreadScheduledExecutor();
-                    exes.scheduleAtFixedRate(() -> {
-                        if (cancelled) {
-                            exes.shutdown();
-                            return;
-                        }
-                        sub.onNext(no++);
-                    }, 0, 300, TimeUnit.MILLISECONDS);
-                }
-
-                @Override
-                public void cancel() {
-                    cancelled = true;
-                }
-            });
-        };
-
-        Publisher<Integer> takePub = sub -> {
-            pub.subscribe(new Subscriber<Integer>() {
-                int count = 0;
-                Subscription subsc;
-
-                @Override
-                public void onSubscribe(Subscription s) {
-                    sub.onSubscribe(s);
-                }
-
-                @Override
-                public void onNext(Integer integer) {
-                    sub.onNext(integer);
-                    if (++count >= 5) {
-                        subsc.cancel();
-                    }
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    sub.onError(t);
-                }
-
-                @Override
-                public void onComplete() {
-                    sub.onComplete();
-                }
-            });
-        };
-
-        pub.subscribe(new Subscriber<Integer>() {
-            @Override
-            public void onSubscribe(Subscription s) {
-
-            }
-
-            @Override
-            public void onNext(Integer s) {
-
-            }
-
-            @Override
-            public void onError(Throwable t) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-    }
-}
-```
-#### Future
-```
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.Objects;
-import java.util.concurrent.*;
-
-/**
- * thread의 결과값을 받기 위한 것.
+/*
+ future : 비동기적인 결과를 나타내는 것, 일종의 핸들러
  */
 @Slf4j
 public class FutureEx {
-    public static void main(String[] args) throws InterruptedException, ExecutionException {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+
         ExecutorService es = Executors.newCachedThreadPool();
+        Future<String> future = es.submit(() ->
+        {
+            Thread.sleep(2000);
+            log.debug("Async");
+            return "hello";
+        });
+        System.out.println(future.isDone()); // 비동기 작업이 종료되었느지 확인
+        Thread.sleep(2100);
+        log.debug("EXIT");
+        System.out.println(future.isDone());
+        log.debug(future.get()); // future를 통해서 비동기 값을 가져옴. -> 결과가 나올 때까지 호출한 메서드는 blocking한 상태가 됨.
+    }
+}
 
-        CallbackFutureTask f = new CallbackFutureTask(() -> {
-            Thread.sleep(2000); // interruptException이 발생할 수 있음.
-            log.info("Async");
-            return "Hello";
-        },
-        result -> System.out.println(result);
-        ;
+```
+```
+> Task :FutureEx.main()
+false
+[pool-1-thread-1] DEBUG FutureEx - Async
+[main] DEBUG FutureEx - EXIT
+true
+[main] DEBUG FutureEx - hello
+```
+### FutureTask
+```
+import lombok.extern.slf4j.Slf4j;
 
-        FutureTask<String> f = new FutureTask<String>(() -> {
-            Thread.sleep(2000); // interruptException이 발생할 수 있음.
-            log.info("Async");
-            return "Hello";
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+
+/*
+ FutureTask :
+ */
+@Slf4j
+public class FutureEx {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+
+        ExecutorService es = Executors.newCachedThreadPool();
+        FutureTask<String> futureTask = new FutureTask<String>(() ->
+        {
+            Thread.sleep(2000);
+            log.debug("Async");
+            return "hello";
         }) {
             @Override
             protected void done() {
                 try {
-                    get();
+                    System.out.println(get());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -315,28 +76,155 @@ public class FutureEx {
             }
         };
 
-        es.execute(f);
+        es.execute(futureTask);
+        es.shutdown(); // 종료를 하지 않으면 thread가 계속 떠있는 상태임.
+    }
+}
+```
+```
+> Task :FutureEx.main()
+[pool-1-thread-1] DEBUG FutureEx - Async
+hello
+```
 
-        log.info(f.get());
-        log.info("Exit");
+```
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Objects;
+import java.util.concurrent.*;
+
+
+/*
+ FutureTask :
+ */
+@Slf4j
+public class FutureEx {
+    FutureTask<String> futureTask = new FutureTask<String>(() ->
+    {
+        Thread.sleep(2000);
+        log.debug("Async");
+        return "hello";
+    }) {
+        @Override
+        protected void done() {
+            try {
+                System.out.println(get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+
+        ExecutorService es = Executors.newCachedThreadPool();
+
+        CallbackFutureTask f = new CallbackFutureTask(() -> {
+            Thread.sleep(2000);
+            // if(true) throw new RuntimeException("Async ERROR!!"); // 2)
+            log.info("Async");
+            return "Hello";
+        },
+                s -> System.out.println("Result : " + s),
+                e -> System.out.println("Error : " + e.getMessage()));
+
+        es.execute(f);
+        es.shutdown(); // 종료를 하지 않으면 thread가 계속 떠있는 상태임.
     }
 
     interface SuccessCallback {
         void onSuccess(String result);
     }
 
+    interface ExceptionCallback {
+        void onError(Throwable t);
+    }
+
     public static class CallbackFutureTask extends FutureTask<String> {
         SuccessCallback sc;
+        ExceptionCallback ec;
 
-        public CallbackFutureTask(Callable<String> callable, SuccessCallback sc) {
+        public CallbackFutureTask(Callable<String> callable, SuccessCallback sc, ExceptionCallback ec) {
             super(callable);
-            if (sc == null) throw null;
             this.sc = Objects.requireNonNull(sc);
+            this.ec = Objects.requireNonNull(ec);
         }
 
         @Override
         protected void done() {
-            sc.onSuccess(get());
+            try {
+                sc.onSuccess(get());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } catch (ExecutionException e) {
+                ec.onError(e.getCause());
+            }
+        }
+    }
+}
+```
+1)
+```
+> Task :FutureEx.main()
+[pool-1-thread-1] INFO FutureEx - Async
+Result : Hello
+```
+2) 예외처리
+```
+Error : Async ERROR!!
+```
+## 스프링 비동기 기술
+```
+package com.practice.springbootrestapimarket;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.Future;
+
+@EnableJpaAuditing
+@SpringBootApplication
+@EnableAsync
+@Slf4j
+public class SpringbootRestapiMarketApplication {
+
+    @Autowired
+    MyService myService;
+
+    public static void main(String[] args) {
+        try (ConfigurableApplicationContext c = SpringApplication.run(SpringbootRestapiMarketApplication.class, args)) {
+        }
+    }
+
+    @Bean
+    ApplicationRunner run() {
+        return args -> {
+            log.info("run()");
+            Future<String> res = myService.hello();
+            log.info("exit : " + res.isDone());
+            log.info("result : " + res.get());
+        };
+    }
+
+    @Component
+    public static class MyService {
+        @Async
+        public Future<String> hello() throws InterruptedException {
+            log.debug("hello()");
+            Thread.sleep(2000);
+            return new AsyncResult<>("Hello");
         }
     }
 }

@@ -1,0 +1,7 @@
+- [ ] GC exceed Error : GC가 터지면 tomcat도 죽고... -> ps 보고 로그도 보고  
+- [ ] lambda의 map 과 transaction  
+- [ ] 정산 시스템이 어려운 이유  
+- [x] **JPA** @dynamicUpdate  
+  - 엔티티는 기본적으로 모든 컬럼을 생성하는데 dynamicupdate는 동적으로 쿼리를 생성해서 일부 컬럼이라면 효율적이지만 오히려 쿼리를 만들어야하기에 성능이 더 떨어질 수도 있다.  
+- [ ] aws 스크립트 언어 어쩌구...   
+- [ ] baseentity  

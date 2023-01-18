@@ -298,3 +298,139 @@ public class SpringbootRestapiMarketApplication {
     }
 }
 ```
+// 간단하게 부하테스트해보기
+```
+package com.practice.springbootrestapimarket;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StopWatch;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+@Slf4j
+public class LoadTest {
+    static AtomicInteger counter = new AtomicInteger(0);
+
+    public static void main(String[] args) throws InterruptedException {
+        ExecutorService es = Executors.newFixedThreadPool(100);
+
+        RestTemplate rt = new RestTemplate();
+        String url = "http://localhost:8080/callable";
+
+        StopWatch main = new StopWatch();
+
+        for (int i = 0; i < 100; i++) {
+            es.execute(() -> {
+                int idx = counter.addAndGet(1);
+                log.info("Thread " + idx);
+
+                StopWatch sw = new StopWatch();
+                sw.start();
+
+                rt.getForObject(url, String.class);
+                sw.stop();
+                log.info("Elapsed: " + idx + " -> " + sw.getTotalTimeSeconds());
+            });
+
+            es.shutdown();
+            es.awaitTermination(100, TimeUnit.SECONDS);
+
+            main.stop();
+            log.info("TOTAL : {}", main.getTotalTimeSeconds());
+        }
+    }
+}
+```
+```
+package com.practice.springbootrestapimarket;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Component;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
+
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.Executors;
+
+@EnableJpaAuditing
+@SpringBootApplication
+@EnableAsync
+@Slf4j
+public class SpringbootRestapiMarketApplication {
+
+    @Autowired
+    MyService myService;
+
+    public static void main(String[] args) {
+        SpringApplication.run(SpringbootRestapiMarketApplication.class, args);
+    }
+
+    @Component
+    public static class MyService {
+        @Async("tp")
+        public ListenableFuture<String> hello() throws InterruptedException {
+            log.info("hello()");
+            Thread.sleep(2000);
+            return new AsyncResult<>("Hello");
+        }
+    }
+
+    @RestController
+    public static class MyController {
+        Queue<DeferredResult<String>> results = new ConcurrentLinkedDeque<>();
+
+        @GetMapping("/dr")
+        public DeferredResult<String> callable() throws InterruptedException {
+            log.info("dr");
+            DeferredResult<String> dr = new DeferredResult<>(60000L);
+            return dr;
+        }
+
+        @GetMapping("/dr/count")
+        public String drCount() {
+            return String.valueOf(results.size());
+        }
+
+        @GetMapping("/dr/event")
+        public String drEvent(String msg) {
+            for (DeferredResult<String> dr : results) {
+                dr.setResult("hello " + msg);
+                results.remove(dr);
+            }
+            return "OL";
+        }
+
+        @GetMapping("/emmitter")
+        public ResponseBodyEmitter emitter() throws InterruptedException {
+            ResponseBodyEmitter emitter = new ResponseBodyEmitter();
+
+            Executors.newSingleThreadExecutor().submit(() -> {
+                for (int i = 0; i < 50; i++) {
+                    try {
+                        emitter.send("<p>Stream " + i + " <p>");
+                        Thread.sleep(100);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return emitter;
+        }
+    }
+}
+```

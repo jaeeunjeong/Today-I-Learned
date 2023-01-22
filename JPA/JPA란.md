@@ -120,3 +120,13 @@ JPA에서 가장 중요한 2가지
     - 여러 개를 조회해서 값을 가져올 때, DTO에 바로 담을 수 있게 하는 것.
 ## fetch join
     - on 써서 직접 해줘야 할 때가 존재하는데... 
+## getOne과 findOne의 차이
+### get
+- 영속성 컨텍스트에 있는 것을 가져와서 사용한다.
+- 프록시 객체를 가져와서 사용한다.
+### find
+- 데이터베이스에서 바로 가져와서 사용한다.
+- 연관 관계에 있는 경우 값을 전부 가져옴.
+
+### **failed to lazily initialize a collection, could not initialize proxy - no Session** Error
+프록시 객체를 가져올 경우 JPA 세션이 프록시 객체가 유효하지 않다고 보내는 메시지 *정합성 관련 에러?*

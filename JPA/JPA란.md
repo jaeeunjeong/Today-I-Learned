@@ -130,3 +130,7 @@ JPA에서 가장 중요한 2가지
 
 ### **failed to lazily initialize a collection, could not initialize proxy - no Session** Error
 프록시 객체를 가져올 경우 JPA 세션이 프록시 객체가 유효하지 않다고 보내는 메시지 *정합성 관련 에러?*
+
+### Isolation level
+- 트랜잭션은 ACID 원칙을 보장해야하지만 이를 지키면 동시성 원칙이 매우 떨어지기에  isolation level을 사용하여 동시성을 높인다.
+- 종류 : READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE

@@ -635,4 +635,141 @@ public class LoadTest {
         }
     }
 }
+
+## 코드 리팩토링
+```
+@EnableJpaAuditing
+@SpringBootApplication
+public class SpringbootRestapiMarketApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(SpringbootRestapiMarketApplication.class, args);
+    }
+
+    @Bean
+    public ThreadPoolTaskExecutor myThreadPool() {
+        ThreadPoolTaskExecutor te = new ThreadPoolTaskExecutor();
+        te.setCorePoolSize(1);
+        te.setMaxPoolSize(10);
+        te.initialize();
+        return te;
+    }
+
+    @RestController
+    public static class MyController {
+
+        @Autowired
+        MyService myService;
+
+        AsyncRestTemplate artN = new AsyncRestTemplate(new Netty4ClientHttpRequestFactory(new NioEventLoopGroup(1)));
+
+        @GetMapping("/async-rest")
+        public DeferredResult<String> asyncRestCase1(int idx) {
+
+            DeferredResult<String> dr = new DeferredResult<>();
+
+            Completion
+                    .from(artN.getForEntity("http://localhost:8080/service?idx={idx}", String.class, "hello" + idx))
+                    .andApply(s -> artN.getForEntity("http://", String.class, s.getBody()))
+                    .andError(e -> dr.setErrorResult(e))
+                    .andAccept(s -> dr.setResult(s.getBody()));
+
+
+            return dr;
+        }
+    }
+
+    public static class Completion<S, T> {
+
+        Completion next;
+//        Consumer<ResponseEntity<String>> con;
+//        Function<ResponseEntity<String>, ListenableFuture<ResponseEntity<String>>> fn;
+
+        public Completion() {
+        }
+
+        public Completion(Consumer<ResponseEntity<String>> con) {
+            this.con = con;
+        }
+
+        public Completion(Function<ResponseEntity<String>, ListenableFuture<ResponseEntity<String>>> fn) {
+            this.fn = fn;
+        }
+
+        public static <S, T> Completion from(ListenableFuture<ResponseEntity<String>> lf) {
+            Completion c = new Completion();
+
+            lf.addCallback(s -> {
+                c.complete(s);
+            }, e -> {
+                c.error(e);
+            });
+
+            return c;
+        }
+
+         void error(Throwable e) {
+        }
+
+         void complete(ResponseEntity<String> s) {
+            if (next != null) this.next.run(s);
+        }
+
+        void run(ResponseEntity<String> s) {
+            if (con != null) con.accept(s);
+        }
+
+        public void andAccept(Consumer<ResponseEntity<String>> con) {
+            Completion c = new Completion(con);
+            this.next = c;
+        }
+
+        public Completion andApply(Function<ResponseEntity<String>, ListenableFuture<ResponseEntity<String>>> fn) {
+            Completion c = new Completion(con);
+            this.next = c;
+            return c;
+        }
+
+        public Completion andError(Consumer<Throwable> econ){
+            Completion c = new ErrorCompletion(econ);
+            this.next = c;
+            return c;
+        }
+    }
+
+    public static class AcceptCompletion extends Completion{
+        Consumer<ResponseEntity<String>> con;
+
+        public AcceptCompletion(Consumer<ResponseEntity<String>> con) {
+            super(con);
+        }
+
+        @Override
+        void run(ResponseEntity<String> s) {
+            
+        }
+    }
+
+    public static class ErrorCompletion extends Completion{
+        public Consumer<Throwable> econ;
+
+        public ErrorCompletion(Consumer<Throwable> econ) {
+            this.econ = econ;
+        }
+
+        @Override
+        void error(Throwable e) {
+            super.error(e);
+        }
+    }
+
+    @Service
+    public static class MyService {
+        public ListenableFuture<String> work(String req) {
+            return new AsyncResult<>(req + "/asyncwork");
+        }
+    }
+}
+
+```
 ```

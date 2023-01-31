@@ -134,3 +134,9 @@ JPA에서 가장 중요한 2가지
 ### Isolation level
 - 트랜잭션은 ACID 원칙을 보장해야하지만 이를 지키면 동시성 원칙이 매우 떨어지기에  isolation level을 사용하여 동시성을 높인다.
 - 종류 : READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE
+### OneToOne ㅅ
+- 다른 조인시 OneToOne 관계에 있다면 매번 fetch join을 걸어야한다.  
+- 따라서, 단방향으 경우만 사용하고 양방향이라며. ManyToOne, OneToMany를 사용한다.
+### ㅣ
+### ㅣ
+### 

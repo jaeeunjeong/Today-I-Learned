@@ -261,9 +261,8 @@ public class SpringbootRestapiMarketApplication {
 }
 ```
 ## 비동기 RestTemplate와 비동기 MVC/Serlvet
-```
-package com.practice.springbootrestapimarket;
 
+```
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -371,8 +370,6 @@ public class SpringbootRestapiMarketApplication {
 ```
 
 ```
-package com.practice.springbootrestapimarket;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -408,7 +405,6 @@ public class RemoteService {
 ```
 
 ```
-package com.practice.springbootrestapimarket;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StopWatch;
@@ -461,7 +457,7 @@ public class LoadTest {
         }
     }
 }
-
+```
 ## AsyncRestTemplet의 콜백 헬과 중복
 ```
 @EnableJpaAuditing
@@ -597,7 +593,6 @@ public class SpringbootRestapiMarketApplication {
     }
 }
 
-```
 ```
 ## CompletableFuture
 ```

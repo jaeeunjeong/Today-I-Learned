@@ -1,4 +1,4 @@
-# ReactiveProgramming_
+# _ReactiveProgramming
 
 
 ## 스프링 비동기 기술
@@ -462,7 +462,7 @@ public class LoadTest {
     }
 }
 
-## 코드 리팩토링
+## AsyncRestTemplet의 콜백 헬과 중복
 ```
 @EnableJpaAuditing
 @SpringBootApplication
@@ -598,4 +598,75 @@ public class SpringbootRestapiMarketApplication {
 }
 
 ```
+```
+## CompletableFuture
+```
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.*;
+
+@Slf4j
+public class CFuture {
+public static void main(String[] args) throws ExecutionException, InterruptedException {
+    // 1.
+//        CompletableFuture<Integer> f = new CompletableFuture<>();
+//        f.completeExceptionally(new RuntimeException());
+//        System.out.println(f.get());
+
+    // 2.
+    ExecutorService es = Executors.newFixedThreadPool(10);
+    CompletableFuture
+//                .runAsync(() -> log.info("runAsync"))
+            .supplyAsync(() -> {
+                log.info("runSupplyAsync");
+                return 1;
+            }) // 2. 1) supply를 구현하고 있어야함. 반드시 리턴!
+            .thenApply(s -> {
+                log.info("thenApply");
+                return s + 1;
+            }) // 2. - 2) 앞에서 받은 걸 바탕으로 새로운 작업 진행, -> completableFuture를 리턴함.
+            .thenCompose(s1 -> {
+                log.info("thenApply");
+                return CompletableFuture.completedFuture(s1 + 1); // 2. 4-> thenApply 말고 thenCompose 사용해주면 됨.
+            }) // 2. - 2) 앞에서 받은 걸 바탕으로 새로운 작업 진행, -> completableFuture를 리턴함.
+            .thenApplyAsync(s -> {
+                log.info("thenApply");
+                return s + 1;
+            }, es) // 뒤에 async가 붙으면 새로운 thread에서 사용할 수 있음 , thread도 꼭 붙여줘야함.
+            .exceptionally(e -> -10) // 2. - 5) 에러 발생시 바로 예외처리
+            .thenAccept(s2 -> log.info("thenRun {}", s2)) // 2. - 3)결과를 받기만 함.
+//                .thenRun(() -> log.info("thenRun")) // thenRun : 이전의 스레드를 이어서 사용할 수 있다. , 의존적으로 사용됨.
+//                .thenRun(() -> log.info("thenRun"))
+    ;
+    log.info("exit");
+
+    ForkJoinPool.commonPool().shutdown();
+    ForkJoinPool.commonPool().awaitTermination(10, TimeUnit.SECONDS);
+}
+}
+
+```
+```
+@GetMapping("/async-rest")
+public DeferredResult<String> asyncRestCase1(int idx) { // thread를 백그라운드에서 추가로 만들어서 사용됨
+
+    DeferredResult<String> dr = new DeferredResult<>();
+    toCF(rt.getForEntity("http://"), String.class, "h " + idx)
+            .thenCompose(s -> toCF(rt.getForEntity("http://", String.class, s.getBody())))
+            .thenCompose(s2 -> toCF(myService.work(s2.getBody))
+                    .thenCompose(s3 -> dr.setResult(s3))
+                    .exceptionally(e -> {
+                        dr.setErrorResult(e.getMessage());
+                        return (void) null;
+                    }));
+
+    return dr;
+}
+
+
+<T> CompletableFuture<> toCF(ListenableFuture<T> lf) {
+    CompletableFuture<T> cf = new CompletableFuture<>();
+    lf.addCallback(s -> cf.complete(s), e -> cf.completeExceptionally(e));
+    return cf;
+}
 ```

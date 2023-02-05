@@ -665,3 +665,78 @@ public DeferredResult<String> asyncRestCase1(int idx) { // thread를 백그라�
     return cf;
 }
 ```
+## WebFlux
+```
+package com.practice.springbootrestapimarket;
+
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+
+@Slf4j
+@RestController
+@EnableAsync
+@SpringBootApplication
+public class SpringbootRestapiMarketApplication {
+
+    public static void main(String[] args) {
+        System.setProperty("reactor.ipc.netty.workerCount", "2");
+        System.setProperty("reactor.ipc.netty.pool.maxConnections", "2000");
+        SpringApplication.run(SpringbootRestapiMarketApplication.class, args);
+    }
+
+
+    public static class MyController {
+
+        static final String URL1 = "http://localhost:8081/service?req={req}";
+        static final String URL2 = "http://localhost:8081/service2?req={req}";
+
+        @Autowired
+        MyService myService;
+
+        WebClient client = WebClient.create();
+
+        @GetMapping("/rest")
+        public Mono<String> rest(int idx) {
+            String s = "Hello";
+            Mono<String> mono =  Mono.just("hello");
+
+            // 선언만 한 것은 동작하지 않음
+            Mono<ClientResponse> response = client.get().url(URL1, idx).exchange();
+//            ClientResponse cr = null;
+//            Mono<String> body = cr.bodyToMono()
+
+            // 모노에 다시 담아서 하려고 할 때 map 사용
+            response.map(clientResponse -> clientResponse.bodyToMono(Strinig.class));
+
+            // flatMap을 이용해서 결과 값 형태를 간결하게 사용 -> 여러개 api 사용하기.
+            Mono<String> body = response.flatMap((clientResponse -> clientResponse.bodyToMono(Strinig.class)))
+                    .flatMap(res1 -> client.get().uri(URL2, res1).exchange())
+                    .flatMap(c-> c.bodyToMono(String.class))
+                    .flatMap(res2 -> Mono.fromCompletionStage(myService.work(res2)));
+
+            return body;
+        }
+    }
+
+    @Service
+    public static class MyService{
+        @Async // 비동기적으로 사용하고자 할 때 사용가능함. -> 어디서도 blocking 안 걸림!
+        public CompletableFuture<String> work(String req){
+            return CompletableFuture.completedFuture(req + " /asyncwork");
+        }
+    }
+
+}
+```

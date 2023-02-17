@@ -63,3 +63,7 @@ select CAST(@ROWNUM := @ROWNUM + 1 ) AS 'No',
 - GRANT ALL PRIVILEGES ON userid.* TO 'root'@'아이피' : 권한 주는 명령어
 - USE mysql에서 유용하게 쓰이는 명령어
   - select user, host from user; : 어떤 계정이 어떤 환경에 권한이 있는지 알 수 있다.  
+
+### UNION vs UNION ALL
+- UNION 은 중복 제거
+- UNION ALL 은 중복이어도 다 보여줌

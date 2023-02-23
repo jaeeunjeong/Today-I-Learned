@@ -1,8 +1,11 @@
 # Log
 - 정의 : 서버에서 발생한 이벤트들을 기록하는 것
-## ForMat
+## Format
 ```
-
+2020-02-02 11:23:31 INFO 3016 --- [           main] c.p.s.SpringbootRestapiMarketApplication : run()
+2020-02-02 11:23:31 INFO 3016 --- [           main] c.p.s.SpringbootRestapiMarketApplication : exit : false
+2020-02-02 11:23:31 INFO 3016 --- [         task-1] c.p.s.SpringbootRestapiMarketApplication : hello()
+2020-02-02 11:23:31 INFO 3016 --- [           main] c.p.s.SpringbootRestapiMarketApplication : result : Hello
 ```
 - 날짜와 시간
 - 로그 레벨

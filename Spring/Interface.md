@@ -11,12 +11,30 @@ boolean supportsParameter(MethodParameter parameter);
 @Nullable
 Object resolveArgument(MethodParameter parameter, Message<?> message) throws Exception;
 ```
-해당 파라미터에 대해 실질적인 로직을 처리하는 곳
+해당 파라미터에 대해 실질적인 로직을 처리하는 곳 
+데이터를 변환해준다.  
 ```
 @Override
 public boolean supportsParameter(MethodParameter parameter) {
     return isAssignable(IndexingMessage.class, parameter.getParameterType());
 }
+```
+```
+@Slf4j
+@AllArgsConstructor
+public class CustomContentResolver implements HandlerMethodArgumentResolver {
+    private final MessageConverter messageConverter;
+
+    @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+        return isAssignable(Content.class, parameter.getParameterType());
+    }
+
+    @Override
+    public Object resolveArgument(MethodParameter parameter, Message<?> message) {
+        Object convertMessage = messageConverter.fromMessage(message, Content.class);
+        return ((NotificationRequestConverter.NotificationRequest) convertMessage).getMessage();
+    }
 ```
 cf)
 ```

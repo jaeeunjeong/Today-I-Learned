@@ -93,3 +93,12 @@ WHERE user_age < 8;
 [42000][1055] Expression #15 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cloudgatedb.chatroom0_.id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 → SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
+## Replication
+### 정의
+DataBase를 두 개로 나뉘어서 저장하는 것으로 master/slave로 나누어서 쓰기 전용/ 읽기 전용으로 사용하여 DB에 접속 부하를 줄이기 위해 사용한다.
+### 특징
+- 바이너리 로그 기반으로 이뤄짐
+- 비동기방식
+- select 성능 향상
+- 데이터 백업 기능
+- 데이터 정합성을 보장하지 않음

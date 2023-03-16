@@ -36,6 +36,7 @@ Transaction Control Language
 - COMMIT : 트랜잭션의 작업 결과를 반영
 - ROLLBACK : 트랜잭션 작업 취소 및 이전 작업으로 되돌리기
 
+## 명령어 
 ### case-when
 - 다중 조건문을 쓸 때 사용
 ```
@@ -57,6 +58,31 @@ select CAST(@ROWNUM := @ROWNUM + 1 ) AS 'No',
 ```
 - := 0 : 0 으로 초기화
 
+### LIKE vs RLIKE
+#### LIKE
+- **%** : 여러 개의 글자와 매칭된다.
+- **_** : **_** 하나 당 한 글자와 매칭된다.
+#### RLIKE
+REGEXR LIKE!  
+정규식을 사용할 수 있는 LIKE!  
+- **$**  :  패턴 매칭에서 끝나는 문자
+- **^**  :  패턴 매칭에서 시작하는 문자
+- **.**  :  **.** 하나 당 한 글자와 매칭된다.
+- **"*"**  :  여러개의 단어와 매칭 된다.
+```
+SELECT name, price FROM STORE WHERE product_type = '과일'  price RLIKE CONCAT(900,'$');
++------------++------------+
+| fruit_type | price      |
++------------++------------+
+| grapes     | 6900       |
+| bluebarry  | 5900       |
+| apple      | 2900       |
+| plum       | 12900      |
+| watermelon | 22900      |
+| banana     | 3900       |
+| mango      | 9900       |
++------------++------------+
+```
 
 ### DDL
 - USE **DB 이름** : DB에 들어가기 위한 명령어

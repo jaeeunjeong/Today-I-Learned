@@ -86,23 +86,10 @@ WHERE user_age < 8;
 - 요구 사항이 변할 경우 유연하게 대처할 수 있다.
 - 자식 데이터가 존재해도 부모데이터가 존재하지 않을 수 있다.
 - 데이터 무결성을 보장하지 않는다.
-# GroupBy 가 안 될 때가 있다.
+## GroupBy 가 안 될 때가 있다.
 - 테이블 전체를 사용해야 group by가 되는 경우가 있는데 이런 경우 use mysql을 한 후  
    **SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));** 를 해주면 된다.
 ```
 [42000][1055] Expression #15 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cloudgatedb.chatroom0_.id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 → SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
-## Replication
-### 정의
-DataBase를 두 개로 나뉘어서 저장하는 것으로 master/slave로 나누어서 쓰기 전용/ 읽기 전용으로 사용하여 DB에 접속 부하를 줄이기 위해 사용한다.
-### 원리
-1. 저장 원리
-- Master에 등록되는 데이터에 대한 바이너리 로그를 slave에서 비동기로 읽어서 데이터를 복제해서 사용한다.
-2. 읽기 원리
-- 로드밸런서 이용
-### 특징
-- 비동기방식
-- select 성능 향상
-- 데이터 백업 기능
-- 데이터 정합성을 보장하지 않음

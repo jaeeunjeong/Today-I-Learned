@@ -42,5 +42,25 @@
  - 옵션
   - readonly : 스프링 프레임워크에서 하이버네이트 세선 플러시 모드를 MANUAL로 설정하여 읽기 전용으로 사용하기에 기능이 향상된다. 
 
+### @Valid vs @Validated
+
+### @Valid
+
+- DTO 에 제약조건을 명시하고 컨트롤러 파라미터 앞에 선언하면 빈 검증기를 이용해서 제약조건을 검증하도록 지시하는 어노테이션.
+- ArgumentResolver에서 처리한다. 따라서 Controller에서만 동작한다.
+- JSR Java 표준 스펙에서 검증해준다.
+- 관련 예외 : MethodArgumentNotValidException
+- 의존성 추가해줘야한다.
+
+```java
+implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+```
+
+### @Validated
+
+- Spring Framework에서 AOP 기반으로 제공하는 기능
+- 클래스에 @Validated를 붙이고 메서드에 @Valid를 붙여서 유효성을 검증한다.
+- 관련 예외 : ConstraintViolationException
+
 ### 참고
 spring document

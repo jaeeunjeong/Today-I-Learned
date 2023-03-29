@@ -1,7 +1,11 @@
 # Reactive Streams
-1. Iterable
-   - for each는 구현한 것이 아니라 Iterable를 이용해서 만든 것
- ### 코드
+## 목차
+- Iterable
+- Observavle
+## Iterable
+   - for each는 Collection을 구현한 것이 아니라 Iterable를 이용해서 만든 것
+   - pulling 방식 : 소스가 있다면 값을 받는 방식
+### 코드
 ```
 public static void main(String[] args) {
     Iterable<Integer> iter = () -> 
@@ -25,22 +29,32 @@ public static void main(String[] args) {
 ```
 1 2 3 4 5 6 7 8 9 10
 ```
-2. Observavle ( Iterable의 쌍대성 관계 )
-  - Observavle : source
+## Observavle ( Iterable의 쌍대성 관계 )
+*쌍대성 : 구조가 정 반대인 성질 (대칭성과 비슷한 의미)*
+  - Observable : source, Event나 Data 같은 데이터의 근원
   - Observer : 이 곳에 Event나 Data를 던져서 실행하는 곳
+  - push 방식 : 데이터나 결과를 주는 방식
+  - 관심이 있는 Observer에 Broadcast 가능함.
 ### 코드
 ```
+/**
+* Observable : Observer를 등록하면 관련 event가 발생후 전달(Noti)해줌.
+* Runnable : 비동기적으로 실행시키기 위해 사용
+*/
 static class IntObservable extends Observable implements Runnable { // publisher, 데이터를 보내는 쪽
     @Override
     public void run() {
         for (int i = 1; i <= 10; i++) {
             setChanged(); // 새로운 변화를 만들고
-            notifyObservers(i); // 그 변화를 알려줌
+            // 1)
+            notifyObservers(i); // 그 변화를 알려줌 // push , ( = int i = it.next() // pull)
         }
     }
 }
 
 public static void main(String[] args) {
+
+    // 2)
     Observer ob = new Observer() { // subscriber, 데이터를 받는 쪽
         @Override
         public void update(Observable o, Object arg) {
@@ -59,6 +73,7 @@ public static void main(String[] args) {
     es.shutdown();
 }
 ```
+- 2) 에서 연산이 수행되지만, 실질적 데이터가 있는 곳은 1)임.
 ### 결과
 ```
 > Task :Ob.main()
@@ -85,20 +100,21 @@ pool-1-thread-1 10
 ## Reacitve Streams
 - 리액티브 스트림의 표준
 ### API
-- Processor
-- Publisher
-  - Observable에 해당함
+1. Processor
+2. Publisher
+  - **Observable**에 해당함
   - 잠재적으로 한계가 없는 연속된 요소들을 Subscriber에 제공하는 것
   - `Publisher.subscribe(Subscriber)`를 호출해서 제공한다.
   - 아래의 프로토콜을 따라야한다.
     - `onSubscribe onNext* (onError | onComplete)`
       - onSubscribe : 반드시 호출, Subscriber안에 위치함
       - onNext : 호출해도 되고 안해도 되고 완전 옵션, 
-        -  다음 것을 처리하는 곳, observer pattern에서 update와 동일
-      - onError,onComplete : 종료 호출인데 둘 중에 하나는 꼭 호출해야하며 종료 시그널임.
+        - 다음 것을 처리하는 곳, observer pattern에서 update와 동일
+      - onError, onComplete : 종료 호출인데 둘 중에 하나는 꼭 호출해야하며 종료 시그널임.
+         - onError : try-catch의 역할을 수행. 
     - 데이터를 제공하는 곳이며 구독의 형태로 데이터를 줘야하는 지 알려줘야한다.
-- Subscriber : Observer에 해당하며 데이터를 제공받는다.
-- Subscription : 중개의 역할, 백프레셔, pub와 sub간의 속도를 조절하는 역할.
+3. Subscriber : **Observer**에 해당하며 데이터를 제공받는다.
+4. Subscription : 중개의 역할, 백프레셔, pub와 sub간의 속도를 조절하는 역할.
 ### Reacitve Streams 구현해보기
 ### 코드
 ```
@@ -116,9 +132,9 @@ public class PubSub {
     public static void main(String[] args) throws InterruptedException {
 
         ExecutorService es = Executors.newSingleThreadExecutor();
-        Iterable<Integer> itr = Arrays.asList(1, 2, 3, 4, 5);
+        Iterable<Integer> itr = Arrays.asList(1, 2, 3, 4, 5); // DB에서 가져온다면 Connection Data일 것임.
 
-        // 1.
+        // 1. 실제 수행되길 원하는 로직
         Publisher<Integer> p = new Publisher<Integer>() {
             @Override
             public void subscribe(Subscriber subscriber) {
@@ -162,13 +178,13 @@ public class PubSub {
             public void onSubscribe(Subscription subscription) { // 필수 : 데이터를 어떻게 받을지 적어야함...
                 System.out.println("onSubscribe");
                 this.subscription = subscription;
-                this.subscription.request(Long.MAX_VALUE); // 요청한 데이터를 몇개 받고 싶다고 전달하는 것.
+                this.subscription.request(1); // 요청한 데이터를 몇개 받고 싶다고 전달하는 것.
             }
 
             @Override
             public void onNext(Integer item) {
                 System.out.println("onNext" + item);
-                this.subscription.request(1);
+                this.subscription.request(1); // 요청 끝나면 다음에 또 작업을 요청하기 위함.
             }
 
             // 에러와 완료를 처리 : 둘 중 하나만 만들기.
@@ -193,3 +209,16 @@ public class PubSub {
     }
 }
 ```
+### 결과
+```
+> Task :PubSub.main()
+main: onSubscribe
+pool-1-thread-1 onNext1
+pool-1-thread-1 onNext2
+pool-1-thread-1 onNext3
+pool-1-thread-1 onNext4
+pool-1-thread-1 onNext5
+pool-1-thread-1 onComplete
+```
+### 참고
+https://www.youtube.com/watch?v=8fenTR3KOJo

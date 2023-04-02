@@ -2,11 +2,19 @@
 > 자바의 예외 처리에 대해 학습하세요.
 
 ## 학습 목록 
-- [자바에서 예외 처리 방법 (try, catch, throw, throws, finally)](#자바에서_예외_처리_방법_(try,_catch,_throw,_throws,_finally))
-- [자바가 제공하는 예외 계층 구조](#자바가_제공하는_예외_계층_구조)
-- [Exception과 Error의 차이는?](#Exception과_Error의_차이는?)
-- [RuntimeException과 RE가 아닌 것의 차이는?](#RuntimeException과_RE가_아닌_것의_차이는?)
-- [커스텀한 예외 만드는 방법](#커스텀한_예외_만드는_방법)
+- [9주차 과제: 예외 처리](#9주차-과제-예외-처리)
+  - [학습 목록](#학습-목록)
+  - [자바에서 예외 처리 방법 (try, catch, throw, throws, finally)](#자바에서-예외-처리-방법-try-catch-throw-throws-finally)
+    - [try ~ catch](#try--catch)
+    - [throw](#throw)
+    - [throws](#throws)
+    - [try ~ catch ~ finally](#try--catch--finally)
+    - [try ~ with ~ resources](#try--with--resources)
+  - [자바가 제공하는 예외 계층 구조](#자바가-제공하는-예외-계층-구조)
+  - [Exception과 Error의 차이는?](#exception과-error의-차이는)
+  - [RuntimeException과 RE가 아닌 것의 차이는?](#runtimeexception과-re가-아닌-것의-차이는)
+  - [커스텀한 예외 만드는 방법](#커스텀한-예외-만드는-방법)
+    - [참고 자료](#참고-자료)
 
 ## 자바에서 예외 처리 방법 (try, catch, throw, throws, finally)
 
@@ -85,6 +93,7 @@ RuntimeException과 RuntimeException이 아닌 것.
 public class AccessDeniedException extends RuntimeException{
 }
 ```
+- 예외를 생성해서 만들면 어떤 에러가 발생한건지 명시적으로 알 수 있다.
  - 4가지 best practices
 ### 참고 자료  
 남궁 성, Java의 정석, 도우출판  

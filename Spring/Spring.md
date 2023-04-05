@@ -23,55 +23,49 @@ Oven의 성격이 변해서 Bread, Pizza와 관련된 Oven들을 모두 변경�
 - IoC를 구현한 것을 의미
 
 ## 객체를 주입 받는 방식  
-1. 의존하는 타입의 객체를 직접 생성
+1. 필드 주입
+```java
+@Service
+public class StoreServiceImpl implements StoreService {
+	@Autowired
+	private StoreRepository storeRepository;
+}
+```
+- 간편한 코딩이 장점
+- 불편성을 보장할 수 없다.
+- 순환 참조가 발생할 수 있다.
+2. Setter를 이용한 주입
 
-```
-  StringTokenizer st;
-  st = new StringTokenizer(br.readLine());
-  int T = Integer.parseInt(st.nextToken());
-```
-또는 @Autowired를 이용한다. 
-```
-  public class Calculater{
-    @Autowired
-    private Sum sum;
-  }
-```
-2. 생성자를 이용하여 객체를 생성
-```
-  public class Calculater{
-    private Sum sum;
-  
-    public Calculater(Sum sum){
-      this.sum = sum;
-    }
-  
-  }
-```
-생성자의 파라미터를 이용하여 의존하는 타입의 객체를 전달받을 수 있다.  
-생성자를 이용해 의존 객체를 전달 받는 경우, 객체를 생성할 때 의존하는 객체를 생성자의 파라미터로 전달해야한다.  
-객체를 생성하는 시점에서 의존하는 객체를 모두 전달받을 수 있다.  
-전달 받은 파라미터가 정상인지 확인하는 코드를 생성자에 추가할 경우, 객체 생성 이후에는 그 객체가 사용가능한 상태임을 보장할 수 있다.  
-하지만, 생성자에 전달되는 파라미터만으로는 실제 타입을 알아내기 어렵고 생성자에 전달되는 파라미터 갯수가 늘어날 수록 가독성이 떨어진다.  
-순환참조를 방지하기때문에 스프링에서 권장하는 방식이기도 하다.  
-final 선언이 가능하기때문에 immutable하게 사용할 수 있다.  
-테스트 코드 작성시에도 편리하게 사용 가능하다.  
+```java
+@Service
+public class StoreServiceImpl implements StoreService {
 
-3. 프로퍼티를 이용하여 객체를 생성
-의존 객체를 전달 받기 위해 메서드를 이용한다.
-```
-  public class Calculater{
-    private Sum sum;
-  
-    public void setSum(Sum sum){
-      this.sum = sum;
-    }
-  
-  }
-```
-어떤 의존 객체를 설정하는지 메서드 이름으로 알 수 있다.  
-객체를 생성한 뒤에 의존 객체가 모두 생성되었다고 장담할 수 없어서 사용이 불가능한 상태일 수도 있다.
+	private StoreRepository storeRepository;
 
+	@Autowired
+	public void setStoreRepository(StoreRepository storeRepository){
+	this.storeRepository = storeRepository;
+}
+```
+- 의존 관계를 쉽게 파악하기 어렵다.
+- 순환 참조가 발생할 수 있다.
+3. 생성자 주입
+
+```java
+@Service
+public class StoreServiceImpl implements StoreService {
+
+	private final StoreRepository storeRepository;
+	
+	@Autowired
+	public StoreServiceImpl(StoreRepository storeRepository){
+		this.memberRepository = memberRepository;	
+	}
+}
+```
+
+- 생성과 동시에 의존성을 주입하여 안정적이다.
+- 순환 참조를 컴파일 단계에서 확인 가능하다.
 # POJO
   Plain Old Java Object  
   extends, implements, annontaion을 사용하지 않고 개발하는 것.  

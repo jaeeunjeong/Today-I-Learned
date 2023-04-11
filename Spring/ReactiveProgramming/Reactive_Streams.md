@@ -1,7 +1,7 @@
 # Reactive Streams
 ## 목차
 - Iterable
-- Observavle
+- Observable
 ## Iterable
    - for each는 Collection을 구현한 것이 아니라 Iterable를 이용해서 만든 것
    - pulling 방식 : 소스가 있다면 값을 받는 방식
@@ -29,7 +29,7 @@ public static void main(String[] args) {
 ```
 1 2 3 4 5 6 7 8 9 10
 ```
-## Observavle ( Iterable의 쌍대성 관계 )
+## Observable ( Iterable의 쌍대성 관계 )
 *쌍대성 : 구조가 정 반대인 성질 (대칭성과 비슷한 의미)*
   - Observable : source, Event나 Data 같은 데이터의 근원
   - Observer : 이 곳에 Event나 Data를 던져서 실행하는 곳

@@ -1,13 +1,16 @@
 # Reactive Streams - Operators
+
+## Reacive 개념 정리
 publisher : 데이터를 발생시킴.
-- subscribe 메서드를 통해 데이터를 받겠다고 요청함
+- subscribe 메서드를 통해 데이터를 받겠다고 요청함, 호출하면 데이터를 보내야함.
 - subscriber : 데이터를 받는 것
 - subscription : 둘 사이에 실제 구독이 일어나는 액션을 담고있음.
   - cancle : 외부로부터 더 이상 구독이 필요하지 않을 경우 등 더이상 필요하지 않을 때 사용함.
 
-## operator
-  - map : 데이터를 가공해서 새로운 데이터를 만들어서 넘김
-  - sum : 데이터를 계산만 하고 있다가 총 합계를 구한다음에 넘긴다.
+## Operator
+> 데이터를 가공해서 연산 후 새로운 값을 주기 위한 개념.
+  - map : 데이터를 가공해서 새로운 데이터를 만들어서 넘김 -> subscriber한테 값을 넘기는 것
+  - sum : 데이터를 계산만 하고 있다가 총 합계를 구한 다음에 넘긴다.
   - reduce : 초기의 데이터를 가지고 어떤 연산을 하고 그 값을 연쇄적으로 계산하여 넘기는 것.
   - buffer : 위에서 주는 값을 다 보관하고 있다가 마지막에 collection으로 만드는 것.
 ```
@@ -191,7 +194,7 @@ public class PubSub {
     }
 }
 ```
-#### pub들 generic으로 변환하기
+### pub들 generic으로 변환하기
 ```
 // 가장 기본적인 형태 : 데이터 가공해서 그대로 보여주기, T타입이 들어와서 R타입이 적용되는 형태임
 private static <T, R> Publisher<T> mapPub(Publisher<T> pub, Function<T, R> f) {
@@ -243,7 +246,7 @@ private static <T> Subscriber<T> logSub() {
         @Override
         public void onSubscribe(Subscription s) {
             log.debug("onSubscribe");
-            s.request(Long.MAX_VALUE); // 데이터 무제한으로 받으려고 임의로 설정
+            s.request(Long.MAX_VALUE); // 데이터 무제한으로 받으려고 임의로 설정,  n개의 끝까지 또는 지정된 숫자만큼 구독한다.
         }
 
         @Override
@@ -325,7 +328,7 @@ public class ReactorEx {
 [main] INFO reactor.Flux.Create.1 - onComplete()
 [main] INFO reactor.Flux.Map.2 - onComplete()
 ```
-- Flux 
+## Flux 
   - Reactor가 제공하는 일종의 Publisher
 ### 스프링으로 확인해보기
 - publisher 만 만들면 스프링이 subscriber를 만들어서 제공해준다.

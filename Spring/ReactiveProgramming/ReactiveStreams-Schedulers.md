@@ -6,7 +6,7 @@
   - publishOn
 ## subscribeOn
   - 하나의 publisher와 subscriber 사이에 operator를 넣어서 사용
-  - subscriber의 값을 operator의 스레드에서 사용해달라고 하는 것.
+  - subscriber의 값을 operator의 스레드(subscribeOn에서 지정한 레드)에서 사용해달라고 하는 것.
   - `flux.subscribeOn(schedulers.single()).subscribe();`를 이용해서 사용
   - subscribe(처리하는 쪽)은 빠른데, publisher(호출하는 쪽)의 속도가 느린 경우 사용
   - subscribe의 속도를 예측하기 어려운 경우 사용
@@ -16,7 +16,7 @@
 public class SchedulerEx {
     public static void main(String[] args) {
 
-        // publisher
+        // publisher : 해야할 
         Publisher<Integer> pub  = sub -> {
             sub.onSubscribe(new Subscription() {
                 @Override
@@ -43,7 +43,7 @@ public class SchedulerEx {
         };
 
 
-        // subscribe
+        // subscribe, 실행 로직
         subOnPub.subscribe(new Subscriber<Integer>() {
             @Override
             public void onSubscribe(Subscription s) {
@@ -305,7 +305,7 @@ public class SchedulerEx {
 [pubOn-1] DEBUG SchedulerEx - onComplete
 ```
 
-## flux로 만들어보기
+## Flux로 만들어보기
 ```
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
@@ -375,8 +375,32 @@ public class FluxScEx {
 ```
 - userthread는 main thread가 종료되어도 살아있음.
 - daemon thread : jvm 이 daemon 스레드만 남아있으면 종료함 ex ) timer thread
-## Interval
+## interval
+- 별도의 스레드가 떠서 작동하는 라이브러리 중 하나
+- 메인 메서드에서 실행되지않음
 - 데이터를 선별적으로 사용해서 시뮬레이션 돌릴 때 편리함.
+```java
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+
+import java.time.Duration;
+
+@Slf4j
+public class FluxScEx {
+    public static void main(String[] args) throws InterruptedException {
+        Flux.interval(Duration.ofMillis(500))
+                .subscribe(s -> log.debug("onNext:{}", s));
+    }
+}
+```
+```
+[main] DEBUG reactor.util.Loggers -- Using Slf4j logging framework
+[parallel-1] DEBUG com.example.reactive.FluxScEx -- onNext:0
+[parallel-1] DEBUG com.example.reactive.FluxScEx -- onNext:2
+[parallel-1] DEBUG com.example.reactive.FluxScEx -- onNext:3
+[parallel-1] DEBUG com.example.reactive.FluxScEx -- onNext:4
+[parallel-1] DEBUG com.example.reactive.FluxScEx -- onNext:5
+```
 
 ## take
  - operator 자체를 control하는 것.

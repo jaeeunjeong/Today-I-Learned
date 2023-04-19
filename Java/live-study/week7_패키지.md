@@ -2,17 +2,22 @@
 > 자바의 패키지에 대해 학습하세요.
 
 ## 학습 목록 
-- [package 키워드](#package_키워드)
-- [import 키워드](#import_키워드)
-- [클래스패스](#클래스패스)
-- [CLASSPATH 환경변수](#CLASSPATH_환경변수)
-- [-classpath 옵션](#-classpath_옵션)
-- [접근지시자](#접근지시자)
+- [7주차 과제: 패키지](#7주차-과제-패키지)
+  - [학습 목록](#학습-목록)
+  - [package 키워드](#package-키워드)
+    - [package의 선언](#package의-선언)
+    - [패키지 명명 규칙](#패키지-명명-규칙)
+  - [import 키워드](#import-키워드)
+  - [클래스패스](#클래스패스)
+  - [CLASSPATH 환경변수](#classpath-환경변수)
+  - [-classpath 옵션](#-classpath-옵션)
+  - [접근지시자](#접근지시자)
+    - [참고 자료](#참고-자료)
 
 ## package 키워드
-class의 집합  
-Interface나 class들을 포함시킬 수 있고 관련있는 것끼리 묶음으로써 효율적인 관리가 가능하다.  
-directory의 개념.  
+- class의 집합  
+- Interface나 class들을 포함시킬 수 있고 관련있는 것끼리 묶음으로써 효율적인 관리가 가능하다.  
+- directory의 개념.  
 ### package의 선언  
 ```
 package 패키지 이름;

@@ -2,7 +2,13 @@
 > 자바의 call by value/ call by reference에 대해 학습합니다.
 
 ## 학습 목록
-- [call by value/ call by reference](#call-by-value/-call-by-reference)
+- [1주차 항목 관련 추가 학습](#1주차-항목-관련-추가-학습)
+  - [학습 목록](#학습-목록)
+  - [call by value/ call by reference](#call-by-value-call-by-reference)
+    - [call by value](#call-by-value)
+    - [call by reference](#call-by-reference)
+    - [자바는 call by value!(단, 물리적 관점)](#자바는-call-by-value단-물리적-관점)
+  - [static](#static)
 
 ## call by value/ call by reference
 ### call by value
@@ -19,3 +25,7 @@
 주소 값을 리턴하기때문에 call by value가 되는 것!  
 (객체가 반환되면 그 객체는 Garbage Collector에 들어가게 된다.)
 - 자바에서 reference 타입 객체는 heap에 생성되지만, stack에서 그 객체의 주소값을 사용하기 때문에 직접 객체에 접근하는 것이 아니라 메모리를 확인하기 때문에 reference 타입 객체를 변경한다고 하여 직접 값이 변경되는 것이 아니라 call by value이며 값의 변경을 원한다면 그 객체들을 직접 바꿔줘야한다. 
+
+## static
+- Static 으로 선언된 메서드들이 저장되는 공간
+- 컴파일 시점에 생성되어 변수 사용시 메모리를 생성하지 않고 한 객체를 사용한다.

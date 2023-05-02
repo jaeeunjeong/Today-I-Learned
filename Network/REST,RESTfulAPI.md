@@ -13,6 +13,12 @@ HTTP Method를 통해 해당 자원에 대한 CRUD Operation을 적용하는 것
 - 다양한 언어나 프레임워크 등 멀티 플랫폼의 지원 가능  
 - 대규모의 고성능 통신을 안정적으로 지원할 수 있다.
 ### 원칙
+1. client-server : 클라이언트 서버 구조로 되어있어 각각에 의존하지 않아야한다.
+2. cache : 캐시 성질을 명시해줌으로써 확인되어야함
+3. stateless : 요청간에는 데이터의 상태가 되어있어야하고, 이전 요청 및 다음 요청에 대해 알 수 없어야한다.
+4. uniform interface : 규칙을 URI에 분명하게 나타내어 의미를 파악할 수 있어야한다.
+5. layered system : 계층적으로 되어 있어 클라이언트는 서버에 어디에 접속된건지 알 수 없다.
+6. cade on demand(optional)
 ### 구성요소
 1. HTTP URI : 자원
 2. HTTP Method : 자원에 대한 행위

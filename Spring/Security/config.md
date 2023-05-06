@@ -1,5 +1,5 @@
 # 스프링 시큐리티 설정하기
-```jsx
+```java
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
@@ -43,11 +43,10 @@ spring security가 5.7 버전이 이후 WevSecurityConfigurerAdapter를 이용�
 따라서, 
 
 클래스에는 
-
-`@ConditionalOnDefaultWebSecurity`
-`@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET` ,
-
+```java
+@ConditionalOnDefaultWebSecurity
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+```
 filter method에는 
-`@Order(SecurityProperties.BASIC_AUTH_ORDER)`
+```@Order(SecurityProperties.BASIC_AUTH_ORDER)```
 
-를 이용하여 하나만 등록하도록 해줘야한다.

@@ -21,12 +21,24 @@ public class SecurityConfig {
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        httpSecurity
             .httpBasic().disable()
             .formLogin().disable()
             .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        return http.build();
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeHttpRequests()
+            .requestMatchers("/verify").permitAll()
+            .requestMatchers("/auth/login").permitAll()
+            .requestMatchers(HttpMethod.POST, "/user").permitAll()
+            .and()
+            .exceptionHandling()
+            .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+            .and()
+            .addFilterBefore(new JwtTokenFilter(userService), UsernamePasswordAuthenticationFilter.class)
+        ;
+        return httpSecurity.build();
     }
 
     @Bean
@@ -50,3 +62,15 @@ spring security가 5.7 버전이 이후 WevSecurityConfigurerAdapter를 이용�
 filter method에는 
 ```@Order(SecurityProperties.BASIC_AUTH_ORDER)```
 
+### 새로운 시큐리티에서 변경된 점
+1. 접근시 인증이 필요한 부분/ 필요하지 않은 부분 설정을 위해 사용
+ ```
+ .authorizeRequests()
+ .antMatchers(HttpMethod.POST, "/user").permitAll().anyRequest().authenticated();
+ ```
+ ->
+```
+.authorizeHttpRequests
+.requestMatchers(HttpMethod.POST, "/user").permitAll().anyRequest().authenticated()
+```
+ 

@@ -111,4 +111,7 @@ linkedHashMapWithaccessOrder ver.	{곰=2, 돌고래=3, 치타=3, 햄스터=3, �
 ```
 **linkedHashMapWithaccessOrder ver.** 의 경우 제일 늦게 입력된 **토끼 여우 강아지** 순으로 출력됨을 알 수 있고,  
 토끼 뒤에 강아지가 입력되었지만 제일 마지막에 다시 강아지가 입력되며 강아지가 제일 마지막에 출력된다.
-  
+# MultiValueMap
+- Map 은 Key는 중복아니고, Value는 중복이 혀용되는데 Value가 리스트 형식으로 되어있어 Key가 중복해서 들어갈 있는 자료형
+- Spring util에서 제공한다.
+

@@ -87,6 +87,55 @@ enum은 인스턴스 생성 및 상속이 불가능하며 싱글톤을 만들 �
 enum에서 정의된 순서대로 정수를 반환하는 것.  
  - valueOf()  
 열거형 상수를 이름으로 문자열 상수에 대한 참조를 얻을 수 있다.
+- name()
+enum으로 정의된 것을 가져옴.
+```java
+public enum Phone {
+    iPhone("A")
+    , Galaxy("S")
+    ;
+
+    private String company;
+    
+    Phone(String status) {
+        this.company = status;
+    }
+    public String getCompany() {
+        return company;
+    }
+}
+```
+> 테스트 코드
+```java
+import java.util.Arrays;
+
+public class EnumTest {
+    public static void main(String[] args) {
+
+        System.out.println("iPhone(\"A\") Galaxy(\"S\")\n");
+        System.out.println(String.format("Phone.iPhone.getCompany() : %s ", Phone.iPhone.getCompany()));
+        System.out.println(String.format("Phone.Galaxy.getCompany() : %s ", Phone.Galaxy.getCompany()));
+
+        System.out.println(String.format("Phone.values() : %s", Arrays.stream(Phone.values()).toList()));
+        System.out.println(String.format("Phone.iPhone.name() : %s", Phone.iPhone.name()));
+        System.out.println(String.format("Phone.Galaxy.ordinal() : %s ", Phone.Galaxy.ordinal()));
+        System.out.println(String.format("Phone.iPhone.toString() : %s ",Phone.iPhone.toString()));
+    }
+}
+```
+> 결과
+```
+iPhone("A") Galaxy("S")
+
+Phone.iPhone.getCompany() : A 
+Phone.Galaxy.getCompany() : S 
+Phone.values() : [iPhone, Galaxy]
+Phone.iPhone.name() : iPhone
+Phone.Galaxy.ordinal() : 1 
+Phone.iPhone.toString() : iPhone 
+```
+-> 기본적으로 enum은 선언된 숫자 다뤄지는 것 같고 값을 넣으려면 생성자를 이용해야하며,  
+그 값을 가져오기 위해서 getter를 사용해야하는 것 같다.
 ## java.lang.Enum
 enum을 사용하기 위해 조상이 되는 클래스.  
 자동으로 상속받음.

@@ -21,7 +21,9 @@ Oven의 성격이 변해서 Bread, Pizza와 관련된 Oven들을 모두 변경�
 - 사용자가 개발에만 집중할 수 있다.
 ## DI
 - IoC를 구현한 것을 의미
-
+### 프레임워크와 라이브러리 차이점
+라이브러리는 기능을 사용을 위해 개발자가 관리를 한다면,  
+프레임워크는 객체를 관리해주어 사용자는 사용에만 집중하고 객체 관리에는 위임하여 사용한다.  
 ## 객체를 주입 받는 방식  
 1. 필드 주입
 ```java
@@ -32,7 +34,7 @@ public class StoreServiceImpl implements StoreService {
 }
 ```
 - 간편한 코딩이 장점
-- 불편성을 보장할 수 없다.
+- 객체를 주입할 방법이 DI나, 리플렉션에 의존해야하기 때문에 종속성이 높아진다.
 - 순환 참조가 발생할 수 있다.
 2. Setter를 이용한 주입
 
@@ -47,8 +49,9 @@ public class StoreServiceImpl implements StoreService {
 	this.storeRepository = storeRepository;
 }
 ```
-- 의존 관계를 쉽게 파악하기 어렵다.
 - 순환 참조가 발생할 수 있다.
+- 의존성을 수정할 수 있다.
+- 객체를 주입할 당시 NPE가 발생하지 않음을 보장할 수 없다.
 3. 생성자 주입
 
 ```java
@@ -67,8 +70,6 @@ public class StoreServiceImpl implements StoreService {
 - 생성과 동시에 의존성을 주입하여 안정적이다.
 - 순환 참조를 컴파일 단계에서 확인 가능하다.
 # POJO
-  Plain Old Java Object  
-  extends, implements, annontaion을 사용하지 않고 개발하는 것.  
-  구속되지 않은 java object  
-  
-# 
+- Plain Old Java Object  
+- extends, implements, annontaion을 사용하지 않고 개발하는 것.  
+- 구속되지 않은 java object  

@@ -42,7 +42,7 @@ public void main(String[] args)) {
 ```
 
 ### throws
-선언부에 적어서 오류 처리를 다른 메서드에 떠넘기기  
+**선언부**에 적어서 오류 처리를 다른 메서드에 떠넘기기  
 ```
 public static void main(String[] args) throws IOException {
    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -86,7 +86,6 @@ RuntimeException과 RuntimeException이 아닌 것.
 예외 처리 유무 | 안해도 됨. **unchecked**| 무조건 해야함 **checked**
 에러 예시 | IndexOutOfEception, NullPointException| FileNotFoindException, DataFormatException
 
-
 ## 커스텀한 예외 만드는 방법
 사용자가 예외를 만들 수 있는데, exception을 오버라이드 해서 사용가능하고, 필요에 따라 예외 클래스를 만들 수도 있음.
 ```
@@ -95,5 +94,13 @@ public class AccessDeniedException extends RuntimeException{
 ```
 - 예외를 생성해서 만들면 어떤 에러가 발생한건지 명시적으로 알 수 있다.
  - 4가지 best practices
+  1. Java의 표준 예외와 비교하여 특징적으로 구분되어 개발상의 이점을 제공하는 경우에만 구현해야 한다.
+  2. 명명 규칙 따르기 
+    1. postfix가 Exception으로 명명하기.
+  3. 예외 클래스에 대한 Javadoc 주석 제공
+    1. 목적에 맞게 사용할 수 있도록 기록을 남길 것.
+  4. 원인을 설정하는 생성자 제공
+    1. 표준 예외가 발생하면 그 예외를 보여주기.
 ### 참고 자료  
-남궁 성, Java의 정석, 도우출판  
+- 남궁 성, Java의 정석, 도우출판  
+- https://dzone.com/articles/implementing-custom-exceptions-in-java?fromrel=true

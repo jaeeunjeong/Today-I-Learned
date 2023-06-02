@@ -26,7 +26,7 @@
 - web에서 요청하는 파라미터를 맵핑하여 사용된다.
 - post 형태로 보내는 파라미터, form 형태의 파라미터, Multipart 형태의 파라미터가 맵핑된다.
 
-### @Data
+## @Data
 - @Getter : 생성된 객체를 getter로 만들어준다.
 - @Setter : public 으로 생성된 객체를 setter로 만들어준다.
 - @RequiredArgsConstruct : private final로 선언된 객체를 포함하는 생성자를 만들어준다.
@@ -36,7 +36,7 @@
   - Hashcode : 객체의 고유 값이 같은지 확인 (동일성)
 - @Value : 프로퍼티를 읽을 때 사용
 
-### @Transaction
+## @Transaction
  - 스프링 프레임워크에서 제공하는 선언적 트랜잭션을 처리할 수 있는 어노테이션
  - 클래스/ 메서드에 붙을 수 있으며, 메서드에 선언된 값들이 모두 수행되어야 데이터베이스에 커밋된다.
  - 옵션
@@ -54,7 +54,7 @@
         - 트랜잭션을 읽기전용으로 설정한다.
         - 특정 트랜잭션안에서 쓰기 작업이 일어나는 것을 방지하기 위해 사용. 
 
-### @Valid vs @Validated
+## @Valid vs @Validated
 
 ### @Valid
 
@@ -73,6 +73,8 @@ implementation group: 'org.springframework.boot', name: 'spring-boot-starter-val
 - Spring Framework에서 AOP 기반으로 제공하는 기능
 - 클래스에 @Validated를 붙이고 메서드에 @Valid를 붙여서 유효성을 검증한다.
 - 관련 예외 : ConstraintViolationException
-
+## @Autowired
+- Spring Framework에서 의존성을 주입받기위해 사용하는 기능
+- BeanPostProcessor에서 빈을 감지해서 Spring Container내의 빈 저장소에 등록한다.
 ### 참고
 spring document

@@ -137,3 +137,24 @@ FROM student
 WHERE user_age < 8;
 ```
 -> user_age가 6보다 큰 경우에 뒤의 쿼리와 중복으로 겹쳐지는 7보다 큰 경우는 제외한 채 6보다 큰 결과가 출력.
+## Join
+- 두 개 이상의 테이블을 결합하여 데이터를 조회하고자 할 때 사용하는 것.
+### Inner Join
+- 테이블간 조인시 공통되는 컬럼만 보여지는 것    
+    ```java
+    SELECT *
+    FROM table_a inner join table_b
+    ON table_a.count = table_b.count;
+    ```    
+### Outer Join
+- 테이블 조인시 공통되지 않은 컬럼 값도 보여지는 것
+- null 값도 보여줌.
+- left outer join
+    ```java
+    SELECT *
+    FROM table_a left outer join table_b
+    ON table_a.count = table_b.count;
+    ```
+    - table_a left outer join table_b : table_a와 table_b의 중복되는 컬럼과 table_a 해당하는 컬럼도 같이 보여준다.
+- right outer join은 오른쪽에 해당하는 테이블의 모든 컬럼을 보여준다.
+- full outer join : 두 테이블의 모든 컬럼을 보여준다.
